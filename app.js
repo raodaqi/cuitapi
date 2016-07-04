@@ -53,6 +53,10 @@ app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
 });
 
+app.get('/api', function(req, res) {
+  res.render('api', { currentTime: new Date() });
+});
+
 app.get('/test', function(req, res) {
   res.send("hello");
 });

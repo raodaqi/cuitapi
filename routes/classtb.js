@@ -4,7 +4,7 @@ var cheerio = require('cheerio');
 var iconv = require('iconv-lite');
 var http =  require('http');
 var qs = require('querystring');
-var cookieParser = require('cookie-parser');
+// var cookieParser = require('cookie-parser');
 var request = require('request');
 var charset = require('superagent-charset');
 var superagent = require('superagent');
@@ -95,8 +95,8 @@ router.get('/getProData', function(req, res, next) {
                   classNum[i] = (i+1)+"班";
                 }
               }
-              proAllData.class = classNum;
               proAllData.grade = grade;
+              proAllData.class = classNum;
               // console.log(proAllData);
               var result = {
                 code    : 200,

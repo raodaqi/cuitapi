@@ -19,7 +19,11 @@
     "ejs": "2.3.1",
     "express": "4.12.3",
     "leanengine": "^0.4.0",
-    "superagent-charset": "^1.1.1"
+    "superagent-charset": "^1.1.1",
+    "request":"2.72.0",
+    "superagent":"2.0.0",
+    "cheerio":"0.20.0",
+    "iconv-lite":"0.4.13"
   },
   "engines": {
     "node": "4.x"

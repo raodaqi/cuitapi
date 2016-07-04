@@ -1,0 +1,469 @@
+<% include header.ejs %>
+<style type="text/css">
+  body{
+    background-color: #fafafa
+  }
+  .icon{
+      display:block;
+      float:left;
+      margin:16px 20px;
+      font-weight:600;
+    }
+    .navbar{
+      margin:0;
+      border-radius:0;
+    }
+    .navbar-bracket{
+      display:  block;
+      float:right;
+      overflow: hidden;
+      margin:26px 20px;
+      padding: 0;
+      list-style: none;
+      vertical-align: middle;
+      white-space: nowrap;
+      font-family: Hiragino Sans GB, Microsoft Yahei !important;
+    }
+    .navbar ul li{
+      display:block;
+      float:left;
+      display: inline-block;
+      margin-top: -4px;
+      color: #000;
+      vertical-align: middle;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      font-size:18px;
+      padding:0 20px;
+    }
+    .col-lg-3{
+      text-align:center;
+      width:25% !important;
+      float:left;
+      height:100px;
+      color:white;
+      padding:0;
+      line-height:100px;
+    }
+    .content{
+      height: 100%;
+      padding-top: 74px;
+    }
+    /*.container{
+      margin: 0;
+      padding: 0
+    }*/
+    .sec-content{
+      color: #808080;
+      background-color: #fff;
+      margin: 40px 15px;
+      padding: 40px 30px;
+      border: 1px solid #e9e9e9;
+      -webkit-box-shadow: 0 1px 50px rgba(0,0,0,0.1);
+      box-shadow: 0 1px 50px rgba(0,0,0,0.1);
+    }
+    .api-menu{
+      position: fixed;
+      top: 74px;
+      height: 100%;
+      overflow: auto;
+    }
+    .api-content{
+      margin-left: 16.666666666666664%;
+    }
+    .menu {
+      margin: 40px 0 40px 20px;
+      padding: 0;
+      list-style: none;
+    }
+    .menu-li{
+      color: #808080;
+      padding-bottom: 5px;
+    }
+    .title{
+      font-size: 22px;
+      font-weight: 600;
+      color: #000;
+      font-style: normal;
+      padding:10px 0;
+      font-family: Hiragino Sans GB, Microsoft Yahei !important;
+    }
+    .sec-content{
+      display: none;
+    }
+    .sec-content h1{
+      font-size: 25px;
+      color: #609be3;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .sec-content p{
+      margin-bottom: 20px;
+    }
+    .sec-content img{
+      display: block;
+      width: 90%;
+      margin:  0 auto;
+    }
+    .row{
+      padding-bottom: 50px;
+    }
+    .down{
+      float: right;
+      position: absolute;
+      bottom: 70px;
+      right: 70px;
+      max-width: 300px;
+      height: 50px;
+    }
+    .down a{
+      color: white;
+    }
+    .col-title{
+      font-size: 20px;
+      font-weight: 700;
+      color: #000;
+      padding-top: 20px;
+    }
+    .update-log{
+      min-height: 180px;
+    }
+    .update-log p{
+      font-size: 16px;
+    }
+    .code-content{
+      background-color: #fdf6e3;
+      padding: 20px;
+      margin-bottom: 10px;
+    }
+    .code-content p{
+      color: #839496;
+    }
+    .bold{
+      font-weight: bold;
+      color: #000;
+    }
+
+    /********************color***************************/
+    .pln{
+      color:#bd3613 !important;
+    }
+    .type{
+      color:#b58900 !important;
+    }
+    .str{
+      color:#269186 !important;
+    }
+    .kwd{
+      color:#859900 !important;
+    }
+    .cot{
+      color:#f5a122 !important;
+    }
+    .st{
+      color:#839496 !important;
+    }
+
+    .mac-down{
+      right: 410px;
+    }
+    .apiactive a{
+      color:#609be3 !important;
+    }
+  }
+</style>
+<script>
+    //   .a{
+    //   color: #609be3 !important;
+    // }
+    // #{
+    //   display: block;
+    // }
+    // var url = window.location.hash;
+    // if(url){
+    //   url = url.split("#")[1];
+    // }else{
+    //   url = "index";
+    // }
+    // console.log(url);
+    // $("."+url+" a").css({"color":"#609be3 !important;"});
+    // $("#"+url).show();
+    // console.log(url);
+</script>
+<body>
+
+   <nav class="navbar navbar-custom navbar-fixed-top top-nav-collapse" role="navigation">
+    <div class="container">
+      <div class="navbar-header page-scroll">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+        </button>
+        <logo class="logo"></logo>
+        <a class="icon" href="/"> <i>CUITAPI</i>
+        </a>
+      </div>
+
+      <!-- <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+        <ul class="navbar-bracket">
+          <a href="/">
+            <li>首页</li>
+          </a>
+          <a href="/market">
+            <li>文档</li>
+          </a>
+            <a href="/console">
+              <li>控制台</li>
+            </a>
+            <a href="/signin">
+              <li>登陆</li>
+            </a>
+        </ul>
+      </div> -->
+    </div>
+  </nav>
+
+  <div class="content">
+    <div class="api-container">
+      <div class="col-sm-2 api-menu">
+        <ul class="menu">
+          <li class="title bold">CUITAPI</li>
+          <li class="menu-li intro"><a href="#intro">平台介绍</a></li>
+          <li class="title bold">课表接口</li>
+          <li class="menu-li getAllPro"><a href="#getAllPro">获取所有专业</a></li>
+          <li class="menu-li fastStar-webapp"><a href="#fastStar-webapp">获取班级课表</a></li>
+          <li class="title bold">开发文档</li>
+        </ul>
+      </div>
+      <div class="col-sm-10 api-content">
+        <section class="sec-content" id="intro">
+          <h1 class="sec-title">平台介绍</h1>
+          <p>
+            这是成都信息工程大学网站的api，但所有接口并非官方开放，所有信息，仅供参考。
+          </p>
+          <p>
+            目前我们正在处于开发阶段，我们会陆陆续续开放一些接口，如果你们对于这个项目感兴趣，我们可以免费开放代码和技术。
+          </p>
+          <h1 class="sec-title">平台建议</h1>
+          <p>
+            如果你在使用的时候遇到不开熏的问题，请务必要大声说出来，我们会尽快改善。
+          </p>
+          <p>
+            
+            微信：rdq951019 QQ: 598471284
+          </p>
+          <p>
+            ~O(∩_∩)O~
+          </p>
+        </section>
+    
+        <section class="sec-content" id="getAllPro">
+          <h1 class="sec-title">获取所有专业</h1>
+          <p>
+            Resources URI 
+          </p>
+          <div class="code-content">
+            
+          </div>
+          <p>
+            2、引入api <span class="bold"> &lt;script src='http://pcscloud.coding.io/static/js/pcscloud-core.js'&gt;&lt;/script&gt; </span> 
+          </p>
+          <p>
+            3、继承pcs这个类，调用需要的方法
+          </p>
+          <div class="code-content">
+            <p> &lt;<span class="pln">html lang='en'</span>&gt; </p>
+            <p>&lt;<span class="pln">head</span>&gt; </p>
+            <p>&lt;<span class="pln">/head</span>&gt; </p>
+            <p>&lt;<span class="pln">body</span>&gt;</p>
+            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'https://cdn1.lncld.net/static/js/av-core-mini-0.5.7.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
+            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'http://pcscloud.coding.io/static/js/pcscloud-core.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
+            <p>&lt;<span class="pln">/body</span>&gt;</p>
+            <p> &lt;<span class="pln">/html</span>&gt; </p>
+          <p>
+          </div>
+            这样就引入了所需的javascript
+          </p>
+          <div class="code-content"> 
+            <p>注意： av-core-mini-0.5.7.js必须在pcscloud-core.js之前引用，不然就会报错，无法使用我们的接口。</p>
+            <p>特别注意： 引用好相应的js以后，需要继承我们的pcs的类，才可以正式使用。</p>
+          </div>
+           <div class="code-content">
+            <p> &lt;<span class="pln">html lang='en'</span>&gt; </p>
+            <p>&lt;<span class="pln">head</span>&gt; </p>
+            <p>&lt;<span class="pln">/head</span>&gt; </p>
+            <p>&lt;<span class="pln">body</span>&gt;</p>
+            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'https://cdn1.lncld.net/static/js/av-core-mini-0.5.7.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
+            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'http://pcscloud.coding.io/static/js/pcscloud-core.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
+            <p>&lt;<span class="pln">script</span>&gt;</p>
+            <p>&nbsp;&nbsp;<span class="kwd">var</span> pcs = <span class="pln">pcs</span>; </p>
+            <p>&nbsp;&nbsp;<span class="pln">pcs</span>.<span class="cot">currentUser</span>(); </p>
+            <p>&nbsp;&nbsp;. . . . . . </p>
+            <p>&lt;<span class="pln">/script</span>&gt;</p>
+            <p>&lt;<span class="pln">/body</span>&gt;</p>
+            <p> &lt;<span class="pln">/html</span>&gt; </p>
+          </div>
+        </section>
+        
+        <section class="sec-content" id="currentUser">
+          <h1 class="sec-title">当前用户</h1>
+          <p class="bold st"><span class="pln">pcs</span>.<span class="cot">currentUser</span>();</p>
+          <p>判断当前登录的是哪个用户</p>
+          <p>参数：不需要</p>
+          <p>返回值：</p>
+          <div class="code-content">
+          <p>成功</p>
+          <p>{</p>
+          <p>&nbsp;&nbsp;"currentUser": json,</p>
+          <p>&nbsp;&nbsp;"code": 1,</p>
+          <p>}</p>
+          <p>失败</p>
+          <p>{</p>
+          <p>&nbsp;&nbsp;"currentUser": '',</p>
+          <p>&nbsp;&nbsp;"code": 0,</p>
+          <p>}</p>
+          </div>
+          <p>实例：</p>
+          <div class="code-content">
+            <p><span class="pln">pcs</span>.<span class="cot">currentUser</span>();</p>
+          </div>
+        </section>
+        <section class="sec-content" id="register">
+          <h1 class="sec-title">用户注册</h1>
+          <p class="bold st"><span class="pln">pcs</span>.<span class="cot">signUp</span>(<span class="str">email</span>,<span class="str">password</span>,<span class="str">callback</span>);</p>
+          <p>注意：注册时系统会向该邮箱发送验证邮件，用户需要验证邮箱，没有进行验证的用户无法登录</p>
+          <p>参数：email(邮箱，必须),password(密码，必须),callback(回调，必须)</p>
+          <p>回调写法:</p>
+          <div class="code-content">
+            <p><span class="pln">pcs</span>.<span class="cot">signUp</span>(<span class="str">email</span>,<span class="str">password</span>,{</p>
+            <p>&nbsp;&nbsp;<span class="str">success</span>: <span class="kwd">function</span>(<span class="str">user</span>){</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;// 注册成功之后，执行其他逻辑.</p>
+            <p>&nbsp;&nbsp;},</p>
+            <p>&nbsp;&nbsp;<span class="str">error</span>: <span class="kwd">function</span>(<span class="str">error</span>){</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;// 注册失败之后，执行其他逻辑.</p>
+            <p>&nbsp;&nbsp;}</p>
+            <p>})</p>
+          </div>
+        </section>
+        <section class="sec-content" id="signin">
+          <h1 class="sec-title">用户登录</h1>
+          <p class="bold st"><span class="pln">pcs</span>.<span class="cot">logIn</span>(<span class="str">email</span>,<span class="str">password</span>,<span class="str">callback</span>);</p>
+          <p>注意：没有进行邮箱验证的用户无法登录</p>
+          <p>参数：email(邮箱，必须),password(密码，必须),callback(回调，必须)</p>
+          <p>回调写法:</p>
+          <div class="code-content">
+            <p><span class="pln">pcs</span>.<span class="cot">logIn</span>(<span class="str">email</span>,<span class="str">password</span>,{</p>
+            <p>&nbsp;&nbsp;<span class="str">success</span>:<span class="kwd"> function</span>(<span class="str">user</span>){</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;// 登录成功之后，执行其他逻辑.</p>
+            <p>&nbsp;&nbsp;},</p>
+            <p>&nbsp;&nbsp;<span class="str">error</span>:<span class="kwd"> function</span>(<span class="str">error</span>){</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;// 登录失败之后，执行其他逻辑.</p>
+            <p>&nbsp;&nbsp;}</p>
+            <p>})</p>
+          </div>
+        </section>
+        <section class="sec-content" id="changePW">
+          <h1 class="sec-title">更改用户密码</h1>
+          <p class="bold st"><span class="pln">pcs</span>.<span class="cot">changePassword</span>(<span class="str">password</span>,<span class="str">newPassword</span>,<span class="str">callback</span>);</p>
+          <p>注意：更换密码需要填写以前的密码</p>
+          <p>参数：password(密码，必须),newPassword(新密码，必须),callback(回调，必须)</p>
+          <p>回调写法:</p>
+          <div class="code-content">
+            <p><span class="pln">pcs</span>.<span class="cot">changePassword</span>(<span class="str">password</span>,<span class="str">newPassword</span>,{</p>
+            <p>&nbsp;&nbsp;<span class="str">success</span>:<span class="kwd"> function</span>(<span class="str">user</span>){</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;// 修改密码成功之后，执行其他逻辑.</p>
+            <p>&nbsp;&nbsp;},</p>
+            <p>&nbsp;&nbsp;<span class="str">error</span>: <span class="kwd">function</span>(<span class="str">error</span>){</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;// 修改密码失败之后，执行其他逻辑.</p>
+            <p>&nbsp;&nbsp;}</p>
+            <p>})</p>
+          </div>
+        </section>
+        <section class="sec-content" id="logOut">
+          <h1 class="sec-title">退出登录</h1>
+          <p class="bold st"><span class="pln">pcs</span>.<span class="cot">logOut</span>();</p>
+          <p>参数：不需要</p>
+          <p>返回值：</p>
+          <div class="code-content">
+          <p>成功</p>
+          <p>{</p>
+          <p>&nbsp;&nbsp;"code": 1,</p>
+          <p>}</p>
+          <p>失败</p>
+          <p>{</p>
+          <p>&nbsp;&nbsp;"code": 0,</p>
+          <p>}</p>
+          </div>
+          <p>实例：</p>
+          <div class="code-content">
+            <p><span class="pln">pcs</span>.<span class="cot">logOut()</span>;</p>
+          </div>
+        </section>
+        <section class="sec-content" id="pack">
+          <h1 class="sec-title">打包工具下载</h1>
+          <p>此工具为PCS插件应用打包工具，用于将web程序打包成apk形式的本地插件，适合页面较大，资源文件较多的web应用或者游戏,插件本地化后用户使用就像使用本地app一样急速方便。</p>
+          <div class="row">
+            <div class="col-sm-8 update-log">
+              <h2 class="col-title">打包工具文件资源说明：</h2>
+              <p>assets文件夹 用于存放网页等资源文件</p>
+              <p>res文件夹 用于存放apk资源以及布局文件</p>
+              <p>AndroidManifest.xml apk清单文件</p>
+              <p>aapt.exe 资源打包程序</p>
+              <p>android.jar android framework</p>
+              <p>ApkPackageTool.bat 打包批处理文件</p>
+              <p>classes.dex 程序dex文件</p>
+              <p>debug.keystore Android debug秘钥，apk签名使用</p>
+              <p>PlugApkpackageTool.jar java可执行程序</p>
+
+              <h2 class="col-title">使用环境:</h2>
+              <p>windows,mac系统，安装有java执行环境</p>
+
+              <h2 class="col-title">使用方法</h2>
+              <p>本工具使用非常简单，只需要以下步骤：</p>
+              <p>1.将你的web工程资源拷贝到assets目录下（注意：程序默认加载的web页面为index.html，所以index.html必须直接位于assets目录下）；</p>
+              <p>2.点击运行ApkPackageTool.bat </p>
+              <p>3.运行完成后会生成未签名的app.apk以及debug签名的app_signed.apk</p>
+              <p>4.在应用创建页面，选择创建native应用，上传apk时上传app_signed.apk即可，应用的包名必须为com.cuit.webapp.WebApp,其他参数无强制要求。</p>
+            </div>
+            <button type="button" class="btn btn-primary btn-lg down col-sm-4">
+              <a href="http://7xojmy.com1.z0.glb.clouddn.com/ApkPackageTool.zip?attname=">
+                windows下载
+              </a>
+            </button>
+            <button type="button" class="btn btn-primary btn-lg down col-sm-4 mac-down">
+              <a href="http://ac-dkxqtxhg.clouddn.com/99d86d5d65cd5ee6.zip">
+                mac下载
+              </a>
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+<% include footer.ejs %>
+<script>
+  function init(){
+    var url = window.location.hash;
+      if(url){
+        url = url.split("#")[1];
+      }else{
+        url = "intro";
+      }
+      console.log(url);
+      $(".menu-li").removeClass("apiactive");
+      $("."+url).addClass("apiactive");
+      $("#"+url).show();
+  }
+  init();
+  $("body").on("click",".menu-li",function(){
+      var url = $(this).children("a").attr("href");
+      var url = url.split("#")[1];
+      console.log(url);
+      $(".sec-content").hide();
+      // $("."+url+" a").css({"color":"#609be3 !important;"});
+      $(".menu-li").removeClass("apiactive");
+      $("."+url).addClass("apiactive");
+      $("#"+url).show();
+  })
+</script>
+</html>
