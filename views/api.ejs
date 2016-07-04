@@ -231,8 +231,8 @@
           <li class="menu-li intro"><a href="#intro">平台介绍</a></li>
           <li class="title bold">课表接口</li>
           <li class="menu-li getAllPro"><a href="#getAllPro">获取所有专业</a></li>
-          <li class="menu-li fastStar-webapp"><a href="#fastStar-webapp">获取班级课表</a></li>
-          <li class="title bold">开发文档</li>
+          <li class="menu-li getClassTB"><a href="#getClassTB">获取班级课表</a></li>
+          <li class="title bold">还在更新~~</li>
         </ul>
       </div>
       <div class="col-sm-10 api-content">
@@ -260,73 +260,109 @@
         <section class="sec-content" id="getAllPro">
           <h1 class="sec-title">获取所有专业</h1>
           <p>
-            Resources URI 
+            描述:
           </p>
           <div class="code-content">
-            
+            获取学校所有的专业信息，包括本部和龙泉。
           </div>
           <p>
-            2、引入api <span class="bold"> &lt;script src='http://pcscloud.coding.io/static/js/pcscloud-core.js'&gt;&lt;/script&gt; </span> 
-          </p>
-          <p>
-            3、继承pcs这个类，调用需要的方法
+            URI:
           </p>
           <div class="code-content">
-            <p> &lt;<span class="pln">html lang='en'</span>&gt; </p>
-            <p>&lt;<span class="pln">head</span>&gt; </p>
-            <p>&lt;<span class="pln">/head</span>&gt; </p>
-            <p>&lt;<span class="pln">body</span>&gt;</p>
-            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'https://cdn1.lncld.net/static/js/av-core-mini-0.5.7.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
-            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'http://pcscloud.coding.io/static/js/pcscloud-core.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
-            <p>&lt;<span class="pln">/body</span>&gt;</p>
-            <p> &lt;<span class="pln">/html</span>&gt; </p>
+            http://cuitapi.leanapp.cn/classtb/getProData
+          </div>
           <p>
-          </div>
-            这样就引入了所需的javascript
+            HTTP请求方式
           </p>
-          <div class="code-content"> 
-            <p>注意： av-core-mini-0.5.7.js必须在pcscloud-core.js之前引用，不然就会报错，无法使用我们的接口。</p>
-            <p>特别注意： 引用好相应的js以后，需要继承我们的pcs的类，才可以正式使用。</p>
+          <div class="code-content">
+            GET
           </div>
-           <div class="code-content">
-            <p> &lt;<span class="pln">html lang='en'</span>&gt; </p>
-            <p>&lt;<span class="pln">head</span>&gt; </p>
-            <p>&lt;<span class="pln">/head</span>&gt; </p>
-            <p>&lt;<span class="pln">body</span>&gt;</p>
-            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'https://cdn1.lncld.net/static/js/av-core-mini-0.5.7.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
-            <p>&lt;<span class="pln">script</span> <span class="str">src</span>=<span class="cot">'http://pcscloud.coding.io/static/js/pcscloud-core.js'</span>&gt;&lt;<span class="pln">/script</span>&gt;</p>
-            <p>&lt;<span class="pln">script</span>&gt;</p>
-            <p>&nbsp;&nbsp;<span class="kwd">var</span> pcs = <span class="pln">pcs</span>; </p>
-            <p>&nbsp;&nbsp;<span class="pln">pcs</span>.<span class="cot">currentUser</span>(); </p>
-            <p>&nbsp;&nbsp;. . . . . . </p>
-            <p>&lt;<span class="pln">/script</span>&gt;</p>
-            <p>&lt;<span class="pln">/body</span>&gt;</p>
-            <p> &lt;<span class="pln">/html</span>&gt; </p>
+          <p>
+            调用示例
+          </p>
+          <div class="code-content">
+            GET http://cuitapi.leanapp.cn/classtb/getProData
           </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":200,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"本部"：<span class="pln">{ ...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"龙泉"：<span class="pln">{ ...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"grade":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["2011级","2012级",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"class":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["01班","02班",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p><span class="pln">}</p>
+          <p>
         </section>
         
-        <section class="sec-content" id="currentUser">
-          <h1 class="sec-title">当前用户</h1>
-          <p class="bold st"><span class="pln">pcs</span>.<span class="cot">currentUser</span>();</p>
-          <p>判断当前登录的是哪个用户</p>
-          <p>参数：不需要</p>
-          <p>返回值：</p>
+        <section class="sec-content" id="getClassTB">
+          <h1 class="sec-title">获取班级信息</h1>
+          <p>
+            描述:
+          </p>
           <div class="code-content">
-          <p>成功</p>
-          <p>{</p>
-          <p>&nbsp;&nbsp;"currentUser": json,</p>
-          <p>&nbsp;&nbsp;"code": 1,</p>
-          <p>}</p>
-          <p>失败</p>
-          <p>{</p>
-          <p>&nbsp;&nbsp;"currentUser": '',</p>
-          <p>&nbsp;&nbsp;"code": 0,</p>
-          <p>}</p>
+            获取班级的课表详情。
           </div>
-          <p>实例：</p>
+          <p>
+            URI:
+          </p>
           <div class="code-content">
-            <p><span class="pln">pcs</span>.<span class="cot">currentUser</span>();</p>
+            http://cuitapi.leanapp.cn/classtb/showclass
           </div>
+          <p>
+            HTTP请求方式：
+          </p>
+          <div class="code-content">
+            GET
+          </div>
+          <p>
+            参数：(参数必须严格按照学校的风格，不然获取不到数据哦~~)
+          </p>
+          <div class="code-content">
+            <p>depart 学院(eg:计算机学院)</p>
+            <p>pro 专业(eg:计算机科学本科(计工))</p>
+            <p>grade 年级(eg:2013级)</p>
+            <p>sendClass 班级(eg:02班)</p>
+          </div>
+          <p>
+            调用示例：
+          </p>
+          <div class="code-content">
+            GET http://cuitapi.leanapp.cn/classtb/showclass?depart=计算机学院&pro=计算机科学本科(计工)&grade=2013&sendClass=02班
+          </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":200,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"classTableData":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"className"：<span class="pln">{ 计算机学院计算机科学本科(计工)本科2013级02班课表 },</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"counsellor"：<span class="pln">{ 班主任:-- },</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"remarks"：<span class="pln">{ 备注： },</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["上午第一二节课","上午第三四节课"...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">},</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"mon":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[".net构架及应用1--7周廖德钦1506","HTML51--6周林岗1309"...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">},</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"tue":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["就业指导9--17周姚亚岚2206汇编语言程序设计1--8周张睿1407","HDL与可编程器件5--9周邹云海1206"...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">},</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;。。。。。。</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p><span class="pln">}</p>
+          <p>
         </section>
         <section class="sec-content" id="register">
           <h1 class="sec-title">用户注册</h1>

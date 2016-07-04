@@ -50,7 +50,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('index', { currentTime: new Date() });
+  res.render('api', { currentTime: new Date() });
 });
 
 app.get('/api', function(req, res) {

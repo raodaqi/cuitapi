@@ -124,6 +124,16 @@ router.get('/getProData', function(req, res, next) {
   })
 });
 
+function sendErrorMessage(res,message){
+  var result = {
+    code:500,
+    message:"缺少参数",
+    messageDetail:message,
+    classTableData:{}
+  }
+  res.send(result);
+}
+
 //通过信息查询课程
 router.get('/showclass', function(req, res, next) {
   // getClassTB(res);
@@ -136,6 +146,26 @@ router.get('/showclass', function(req, res, next) {
     pro       : pro,
     grade     : grade,
     sendClass : sendClass
+  }
+  // var depart     = "计算机学院",
+  //             pro        = "计算机科学本科(计工)",
+  //             grade      = "2013级",
+  //             sendClass  = "02班";
+  if(!depart){
+    sendErrorMessage(res,"没有填写学院");
+    return ;
+  }
+  if(!pro){
+    sendErrorMessage(res,"没有填写专业");
+    return ;
+  }
+  if(!grade){
+    sendErrorMessage(res,"没有填写年级");
+    return ;
+  }
+  if(!sendClass){
+    sendErrorMessage(res,"没有填写班级");
+    return ;
   }
   classTBLogin(res,'',send);
 });
