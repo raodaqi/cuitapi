@@ -291,12 +291,18 @@ function superagentGetClass(cookie,url,charset,send,callback){
     .set("Cookie",cookie)
     .end((err, res) => {
       if(res.statusCode == 200){
-        // console.log(res.text);
+        console.log(res.text);
         var $ = cheerio.load(res.text);
         //解析出方式一的链接
+        // console.log();
         console.log($("a").attr("href"));
         var url = 'http://pkxt.cuit.edu.cn/'+$("a").attr("href");
         console.log(url);
+        if(!$("a").attr("href") || $("a").attr("href") == "undefined"){
+          var error = $("font").text();
+          console.log(error);
+          callback.error(leaveBlank(error));
+        }
         superagentUrlData(cookie,url,"",{
           success:function(body){
             callback.success(body);
@@ -460,6 +466,7 @@ function classTBLogin(res,postData,sendData){
           },
           error:function(error){
             console.log(error);
+            sendErrorMessage(res,error);
           }
         });
       }
