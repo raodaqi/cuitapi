@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var AV = require('leanengine');
 var cheerio = require('cheerio');
-var iconv = require('iconv-lite');
+// var iconv = require('iconv-lite');
 var http =  require('http');
 var qs = require('querystring');
 // var cookieParser = require('cookie-parser');
@@ -85,10 +85,10 @@ router.get('/getNew', function(req, res, next) {
     var send ='__EVENTTARGET=lbtnNext&txtKeyWordstxtKeyWords&hfNtId=1';
   }
   else if(type == 3){
-    var page = $("#labCount").text();
+    // var page = $("#labCount").text();
     var send = 'txtKeyWords=站内搜索&hfNtId=1&btnPage=GO&txtPage='+page;
   }
-  superagentGetNews(res,"http://www.cuit.edu.cn/NewsList?id=1",'',send);
+  superagentGetNews("http://www.cuit.edu.cn/NewsList?id=1",'',send);
 });
 
 //获取课程

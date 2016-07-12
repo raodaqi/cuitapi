@@ -38,12 +38,125 @@ router.get('/', function(req, resp, next) {
     });
 });
 
+router.get('/getvfcode', function(req, res, next) {
+  getCodeKey({
+    success:function(code){
+      getJWCVfCode(code,{
+        success:function(data){
+          // res.send("<img src="+data+"/>");
+          sendSuccessMessage(res,data);
+        },
+        error:function(error){
+          sendErrorMessage(res,error);
+        }
+      })
+    },
+    error:function(error){
+      sendErrorMessage(res.error);
+    }
+  });
+  // getJWCVfCode({
+  //   success:function(data){
+  //     // res.send("<img src="+data+"/>");
+  //     sendSuccessMessage(res,data);
+  //   },
+  //   error:function(error){
+  //     sendErrorMessage(res,error);
+  //   }
+  // })
+});
+
+router.get('/getcodekey', function(req, res, next) {
+  getCodeKey({
+    success:function(code){
+      // sendSuccessMessage(res,code);
+      var result = {
+        code:200,
+        message:"success",
+        key:code
+      }
+      res.send(result);
+    },
+    error:function(error){
+      sendErrorMessage(res,error);
+    }
+  });
+});
+
+function JWCLogin(){
+  var url = "http://210.41.224.117/Login/xLogin/Login.asp";
+  // AV.Cloud.httpRequest({
+  //   method: 'POST',
+  //   url: url,
+  //   headers: headers,
+  //   body: send,
+  //   success:function(httpResponse){
+  //     // console.log(httpResponse);
+  //     callback.success(httpResponse.text,httpResponse.headers['set-cookie']);
+  //   },
+  //   error:function(error){
+  //     callback.success(error);
+  //   }
+  // })
+}
+
+
+function getCodeKey(callback){
+  var url = 'http://210.41.224.117/Login/xLogin/Login.asp';
+  superagentUrlData('',url,'',{
+    success:function(body){
+      console.log(body);
+      // var $ = cheerio.load(res.text);
+      var $ = cheerio.load(body);
+      var codeKey = $("input[name=codeKey]").val();
+      console.log(codeKey);
+      if(codeKey){
+        callback.success(codeKey);
+      }else{
+        callback.error($("body").text());
+      }
+    },
+    error:function(error){
+      console.log(error);
+    }
+  })
+}
+
+function getJWCVfCode(code,callback){
+  var time = new Date().getTime();
+  var code = code ? code : "31163";
+  var url = "http://210.41.224.117/Login/xLogin/yzmDvCode.asp?k="+code+"&t="+time;
+  superagent.get(url)
+    .set("Referer", "http://210.41.224.117/Login/xLogin/Login.asp")
+    .set("Accept", "image/webp,image/*,*/*;q=0.8")
+    .accept('image/webp,image/*,*/*;q=0.8')
+    .end((err, res) => {
+      if(res.statusCode == 200){
+        console.log(res.text);
+        var data = new Buffer(res.text, 'binary').toString('base64');
+        console.log(data);
+        var data = "data:text/html;base64,"+data;
+        callback.success(data);
+        // resp.send("<img src='data:text/html;base64,"+data+"'/>");
+      }else{
+        callback.error(err);
+      }
+    });
+}
+
+function sendSuccessMessage(res,data){
+  var result = {
+    code:200,
+    message:"success",
+    data:data
+  }
+  res.send(result);
+}
 function sendErrorMessage(res,message){
   var result = {
     code:500,
-    message:"缺少参数",
     messageDetail:message,
-    classTableData:{}
+    data:{}
   }
   res.send(result);
 }
