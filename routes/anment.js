@@ -75,24 +75,41 @@ router.post('/', function(req, res, next) {
     }
   })
 })
-
-router.get('/getNew', function(req, res, next) {
+// type == 1 :上一页
+// type == 2 :下一页 
+// type == 3 :跳转到某页
+// type == 4 :首页
+// type == 5 :尾页
+router.get('/getNew', function(req, resp, next) {
   var type = req.query.type;
+  var url = "http://www.cuit.edu.cn/NewsList?id=1";
+  superagent.get(url)
+  .end((err, res) => {
+      console.log(res.text);
+        console.log(res.text);
+        var $ = cheerio.load(res.text)
+    var page = $("#txtPage").text();
+    })
   if(type == 1){
-    var send = '__EVENTTARGET=lbtnPrev&txtKeyWords=txtKeyWords&hfNtId=1';
+    var send = '__EVENTTARGET=lbtnPrev&txtKeyWords=站内搜索&hfNtId=1';
   } 
   else if(type == 2){
-    var send ='__EVENTTARGET=lbtnNext&txtKeyWordstxtKeyWords&hfNtId=1';
+    var send ='__EVENTTARGET=lbtnNext&txtKeyWords=站内搜索&hfNtId=1';
   }
-  else if(type == 3){
-    // var page = $("#labCount").text();
-    var send = 'txtKeyWords=站内搜索&hfNtId=1&btnPage=GO&txtPage='+page;
+  else if(type == 3){     
+    var send = 'txtKeyWords=站内搜索&hfNtId=1&btnPage=GO&txtPage='+page;   
   }
-  superagentGetNews("http://www.cuit.edu.cn/NewsList?id=1",'',send);
+  else if(type == 4){
+    var send = '__EVENTTARGET=lbtnFirst&txtKeyWords=站内搜索&&hfNtId=1';
+  }
+  else if(type == 5){
+    var send = '__EVENTTARGET=lbtnLast&txtKeyWords=站内搜索&&hfNtId=1';
+  }
+  superagentGetNews("http://www.cuit.edu.cn/NewsList?id=1",'',send,resp);
 });
 
 //获取课程
-function superagentGetNews(url,charset,send,callback){
+function superagentGetNews(url,charset,send,resp){
   superagent.post(url)  
     .send(send)
     .charset(charset)
@@ -101,6 +118,7 @@ function superagentGetNews(url,charset,send,callback){
         var $ = cheerio.load(res.text);
         // 解析出方式一的链接
         var i = 0;
+        var pages = $("#labCount").text();
           var data = {};
           $("#NewsListContent li a").each(function(i,ele){
           var text  = $(this).text();
@@ -112,7 +130,8 @@ function superagentGetNews(url,charset,send,callback){
           i++;
           })
           console.log(data);
-        res.send(data);
+          var datas ={pages,data}
+        resp.send(datas);
     })
 }
 
