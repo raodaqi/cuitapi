@@ -1,7 +1,6 @@
 # node-js-getting-started
 
-一个简单的使用 Express 4 的 Node.js 应用。
-可以运行在 LeanEngine Node.js 运行时环境。
+这是成都信息工程大学网站的api，但所有接口并非官方开放，所有信息，仅供参考。
 
 ## 本地运行
 
