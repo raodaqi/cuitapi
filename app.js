@@ -8,6 +8,8 @@ var todos = require('./routes/todos');
 var classtb = require('./routes/classtb');
 var grade = require('./routes/grade');
 var anment = require('./routes/anment');
+var btmovie = require('./routes/btmovie');
+var jwcnew = require('./routes/jwcnew');
 var cloud = require('./cloud');
 
 var app = express();
@@ -71,7 +73,8 @@ app.use('/todos', todos);
 app.use('/classtb', classtb);
 app.use('/grade', grade);
 app.use('/anment', anment);
-
+app.use('/btmovie',btmovie);
+app.use('/jwcnew',jwcnew);
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
 app.use(function(req, res, next) {
