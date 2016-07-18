@@ -101,7 +101,8 @@ router.get('/getNew', function(req, resp, next) {
       val = iconv.encode(val, 'GB2312').toString('binary');
       view = encodeURIComponent(view);
       val = encodeURIComponent(val);
-      var send = '__EVENTTARGET=lbtnNext&__EVENTARGUMENT=&__VIEWSTATE='+view+'&__EVENTVALIDATION='+val+'&txtKeyWords=%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2&hfNtId=1&txtPage=';
+      var send = '__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE='+view+'&__EVENTVALIDATION='+val+'txtKeyWords=%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2&hfNtId=1&txtPage=15&btnPage=GO';
+      console.log(val);
     }
     else if(type == 3){     
       var send = 'txtPage='+num+'&__EVENTVALIDATION='+val;   
