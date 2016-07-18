@@ -32,6 +32,8 @@ router.get('/jwcNews', function(req, resp, next) {
 
 function jwcNews(resp) {
   var url = "http://jwc.cuit.edu.cn/";
+  var code = 200;
+  var message = "success";
   superagent.get(url)
     .end((err, res) => {
         console.log(res.text);
@@ -47,8 +49,9 @@ function jwcNews(resp) {
           }
           i++;
           })
-          console.log(data);
-        resp.send(data);
+          var datas = {code,message,data};
+          console.log(datas);
+        resp.send(datas);
     })
   }
   //去除前后空格
