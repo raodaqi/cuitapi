@@ -36,7 +36,7 @@ function jwcNews(resp) {
   var message = "success";
   superagent.get(url)
     .end((err, res) => {
-        console.log(res.text);
+        // console.log(res.text);
         var $ = cheerio.load(res.text);
           var i = 0;
           var data = {};
