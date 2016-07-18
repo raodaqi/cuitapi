@@ -12,6 +12,13 @@ var superagent = require('superagent');
 
 // `AV.Object.extend` 方法一定要放在全局变量，否则会造成堆栈溢出。
 // 详见： https://leancloud.cn/docs/js_guide.html#对象
+function sendErrorMessage(res,message){
+  var result = {
+    code:500,
+    message:"加载失败"
+  }
+  res.send(result);
+}
 router.get('/btMovies', function(req, resp, next) {
   btMovies(resp);
 });
@@ -22,6 +29,10 @@ function btMovies(resp){
   var message = "success";
   superagent.get(url)
     .end((err, res) => {
+    	 if(!res){
+        sendErrorMessage(resp);
+        return ;
+      }
         // console.log(res.text);
         var $ = cheerio.load(res.text);
         var i = 0;

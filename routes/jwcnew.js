@@ -26,6 +26,13 @@ router.post('/', function(req, res, next) {
     }
   })
 })
+function sendErrorMessage(res,message){
+  var result = {
+    code:500,
+    message:"加载失败"
+  }
+  res.send(result);
+}
 router.get('/jwcNews', function(req, resp, next) {
   jwcNews(resp);
 });
@@ -36,6 +43,10 @@ function jwcNews(resp) {
   var message = "success";
   superagent.get(url)
     .end((err, res) => {
+    	 if(!res){
+        sendErrorMessage(resp);
+        return ;
+      }
         // console.log(res.text);
         var $ = cheerio.load(res.text);
           var i = 0;
