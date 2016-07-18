@@ -233,6 +233,7 @@
           <li class="menu-li getAllPro"><a href="#getAllPro">获取所有专业</a></li>
           <li class="menu-li getClassTB"><a href="#getClassTB">获取班级课表</a></li>
           <li class="menu-li getJwcnew"><a href="#getJwcnew">获取教务处公告</a></li>
+          <li class="menu-li getBtmovie"><a href="#getBtmovie">获取BT天堂最新电影信息</a></li>
           <li class="title bold">还在更新~~</li>
         </ul>
       </div>
@@ -341,6 +342,53 @@
             <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":<span class="pln">{</span></p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "text":......,"url":...... }</span></p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+           <!--  <p>&nbsp;&nbsp;&nbsp;&nbsp;"grade":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["2011级","2012级",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"class":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["01班","02班",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p><span class="pln">}</p> -->
+          <p>
+        </section>
+
+        <section class="sec-content" id="getBtmovie">
+          <h1 class="sec-title">获取BT天堂最新电影信息</h1>
+          <p>
+            描述:
+          </p>
+          <div class="code-content">
+            获取BT天堂最新电影信息。
+          </div>
+          <p>
+            URI:
+          </p>
+          <div class="code-content">
+            http://cuitapi.leanapp.cn/btmovie/btMovies
+          </div>
+          <p>
+            HTTP请求方式
+          </p>
+          <div class="code-content">
+            GET
+          </div>
+          <p>
+            调用示例
+          </p>
+          <div class="code-content">
+            GET http://cuitapi.leanapp.cn/btmovie/btMovies
+          </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":200,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "name":......,"anothername":......,"time":......,"url":......,"detail":......,"score":......,"img":..... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "name":......,"anothername":......,"time":......,"url":......,"detail":......,"score":......,"img":..... }</span></p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
            <!--  <p>&nbsp;&nbsp;&nbsp;&nbsp;"grade":<span class="pln">{</span></p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["2011级","2012级",...]</p>
