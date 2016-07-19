@@ -9,7 +9,7 @@ var request = require('request');
 var charset = require('superagent-charset');
 var superagent = require('superagent');
 // charset(superagent);
-
+var movies = AV.Object.extend('movies');
 // `AV.Object.extend` 方法一定要放在全局变量，否则会造成堆栈溢出。
 // 详见： https://leancloud.cn/docs/js_guide.html#对象
 function sendErrorMessage(res,message){
@@ -37,6 +37,7 @@ function btMovies(resp){
         var $ = cheerio.load(res.text);
         var i = 0;
         data = {};
+        var length;
         $(".item").each(function(i,ele){
           // var time = $(".tt span").text();
           var time = $(this).find(".tt").find("span").text();
@@ -45,7 +46,7 @@ function btMovies(resp){
           var anothername = $(this).find(".tt").next().find("a").text();
           var detail = $(this).find(".des").text();
           var score = leaveBlank($(this).find(".rt").text());
-          var img = "http://www.bttiantang.com" + $(this).find(".litpic a").attr("href");
+          var img = $(this).find(".litpic a img").attr("src");
           data[i] ={
             name: name,
             anothername:anothername,
@@ -56,8 +57,9 @@ function btMovies(resp){
             img: img
           }
           i++;
-          })
-        var datas = {code,message,data};
+          length = i + 1;
+          })        
+        var datas = {code,message,data,length};
         console.log(datas);
         resp.send(datas);
     })
@@ -67,5 +69,16 @@ function leaveBlank(str){
   str = str.replace(/\s+/g,"");
   return str;
 }
-
+router.post('/getmovie', function(req, res, next) {
+  var movies = new movies();
+  todo.set('content', content);
+  todo.save(null, {
+    success: function(todo) {
+      res.redirect('/todos');
+    },
+    error: function(err) {
+      next(err);
+    }
+  })
+})
 module.exports = router;

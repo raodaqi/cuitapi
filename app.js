@@ -61,6 +61,10 @@ app.get('/api', function(req, res) {
   res.render('api', { currentTime: new Date() });
 });
 
+app.get('/btmovies', function(req, res) {
+  res.render('btmovies', { currentTime: new Date() });
+});
+
 app.get('/test', function(req, res) {
   res.send("hello");
 });
