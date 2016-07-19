@@ -1,0 +1,145 @@
+<% include header.ejs %>
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+<style type="text/css">
+.infinite-scroll-preloader {
+        margin-top:-20px;
+    }
+    .bar-nav~.content {
+    top: 3rem;
+}
+.title,.bar{
+	height: 3.2rem;
+	line-height: 3.2rem;
+	/*background-color: white;*/
+	font-size: 1.2rem;
+	/*border-bottom: 1px solid #EAEAEA;*/
+}
+.content{
+	width: 100%;
+	height: auto;
+	/*background-color: white;*/
+	min-height: 80%;
+	top: 3rem;
+	float: left;
+	overflow-y: scroll;
+}
+.detail{
+	width: 150px;
+	/*height: 135px;*/
+	min-height: 50px;
+	max-height: 87px;
+
+	padding-top: 3px;
+	height: auto;
+	float: right;
+	/*white-space:nowrap; */
+	text-overflow:ellipsis; 
+	-o-text-overflow:ellipsis; 
+	overflow: hidden;  
+	/*border-bottom: 1px solid #EAEAEA;*/
+	/*padding: 10px;*/
+}
+.inner{
+	bottom: 0;
+	position: absolute;
+	float: right;
+}
+.card-content-inner{
+	float: left;
+}
+.score{
+	float: right;
+	width: 100px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	padding-left: 10px;
+}
+.details{
+	float: right;
+	width: 160px;
+}
+.card-content-inner img{
+	width: 100px;
+	height: 100px;
+	background-size: cover;
+}
+.time{
+	width: 100%;
+	height: 20px;
+	line-height: 20px;
+	margin-top: 10px;
+	float: left;
+	padding-left: 10px;
+}
+</style>
+<body>
+	<header class="bar bar-nav">
+  		<h1 class="title">最新电影</h1>
+	</header>
+	<div class="content">
+	</div>
+        <!--  <div class="item-inner inner">
+            <div class="item-title label">开关</div>
+            <div class="item-input">
+              <label class="label-switch">
+                <input type="checkbox">
+                <div class="checkbox"></div>
+              </label>
+            </div>
+          </div> -->
+    <!-- <div class="card">
+    <div class="card-header">卡头</div>
+    <div class="card-content">
+      <div class="card-content-inner">头和尾的卡片。卡头是用来显示一些额外的信息，或自定义操作卡标题和页脚。</div>
+    </div>
+    <div class="card-footer">卡脚</div>
+  </div> -->
+  <div class="time"></div>
+<script>
+tixing();
+function tixing(){
+	$.ajax({
+        type : "GET",
+        url: "/btmovie/btMovies",
+		data: {},
+        dataType: "json",
+        success : function(result){
+          console.log(result);
+          for(var i = 0 ;i < result.length ; i++){
+          	if(result.data[i].name){
+          	var imgs = result.data[i].img;
+          	var str = '<div class="card"><div class="card-header">'+result.data[i].name+'</div><div class="card-content"><div class="card-content-inner"><img src="'+imgs+'"><div class="details"><div class="score">'+result.data[i].score+'</div><div class="detail">'+result.data[i].detail+'</div></div><div class="time">'+result.data[i].time+'</div></div></div><div class="card-footer"><label class="label-switch"><input type="checkbox"><div class="checkbox"></div></label></div></div>';        	
+          	$(".content").append(str);  
+          	}                 
+          }
+        },
+        error:function(error){
+          console.log(error);
+        }
+      });
+}
+// tixing();
+// function tixing(){
+// 	console.log($(".checkbox").width());
+// 	if($("input[type='checkbox']").is(':checked') == true){
+// 		$(".detail").show();
+// 	}
+// }
+     // $(".checkbox").click(function(){ 
+     // 	tixing();
+     	// $(".detail").slideToggle(); 
+     // });
+// $(".checkbox").click(function(){
+// 	if($("input[type='checkbox']").checked){
+// 		$("input[type='checkbox']").checked = false;
+// 	}
+// 	else{
+// 		$("input[type='checkbox']").checked = true;
+// 	}
+// 	tixing();
+// })
+</script>
+</html>
