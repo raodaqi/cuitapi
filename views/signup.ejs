@@ -1,0 +1,141 @@
+<% include header.ejs %>
+<style type="text/css">
+  .icon{
+      display:block;
+      font-weight:600;
+      border-bottom: 1px solid #EAEAEA;
+      height: 50px;
+      line-height: 50px;
+      font-size: 25px;
+      text-align: center;
+    }
+  .form{
+      display:block;
+      margin-top:30%;
+  }
+  .form-container{
+      display:block;
+      box-sizing: border-box;
+      width:100%;
+      max-width:500px;
+      height:50px;
+      /*margin:25px auto;*/
+      padding:18px 20px;
+      border-radius: 5px;
+      border: 0;
+      margin-top: 25px;
+  }
+  .btn-content{
+      background:#66afe9;
+      border-color: #66afe9;
+      line-height:12px;
+      color:white !important;
+      width: 80%;
+      margin-top: 35px;
+      margin-left: 10%;
+  }
+  .btn-content-empty{
+      border-color: #66afe9;
+      color:#66afe9 !important;
+      line-height:12px;
+      width: 120px;
+      float: right;
+      margin-top: 169px;
+  }
+  .divider{
+      text-align:center;
+      margin-top:5%;
+  }
+  .divider:before,.divider:after{
+      content: '';
+      display: inline-block;
+      vertical-align: middle;
+      width: 35%;
+      height: 1px;
+      background-color: #BABFC3;
+      margin: 0 0% 0 -50%;
+  }
+  .divider:after{
+      margin: 0 -50% 0 0%;
+    }
+  .divider span{
+      font-size:24px;
+      padding:8px 40px;
+  }
+  .hide{
+    height: 100px;
+    width: auto;
+  }
+</style>
+<body>
+<div class="ui-loading-block show">
+    <div class="ui-loading-cnt">
+        <i class="ui-loading-bright"></i>
+        <p>正在加载中...</p>
+    </div>
+</div>
+  <a href="./" class="icon"> 乐映
+  </a>
+  <div class="hide"></div>
+  <form action="./signup" method="post" class="form">
+    <input placeholder="邮箱" class="form-control form-container" name="email">
+    <input type="password" placeholder="密码" class="form-control form-container" name="password"></form>
+    <button class="form-container btn btn-block btn-content" id="signup">注册</button>
+  <a href="/signin">
+    <button class="form-container btn btn-block btn-content">用户登陆</button>
+  </a>
+<% include footer.ejs %>
+<script type="text/javascript">
+   $("#signup").on("click",function(){
+
+      // loadingShow("正在注册");
+      var email = $("input[name=email]").val();
+
+      var password = $("input[name=password]").val();
+      console.log(password.length);
+
+      if(!check("邮箱不能为空",email) || !check("密码不能为空",password) || !checkEmail(email) || !checkPW(password)){
+        loadingHide();
+        return ;
+      }
+
+      // var data = $("input").serialize();
+      var data ={
+        'email':$("input[name='email']").val(),
+        'password':$("input[name='password']").val(),
+        'name':$("input[name='email']").val()
+      }
+        $.ajax({
+          type : "POST",
+          data: data,
+          dataType: "json",
+          url : "/btmovie/signUp",
+          success : function(result){
+            // alert(json);
+            loadingHide();
+            tipShow("注册成功");
+            alert("注册成功");
+            // window.location.href= DOMIN+"setverifysent?email="+$("input[name=email]").val();
+            window.location.href="/btmovies";
+            if(history.length > 1){
+              // window.history.go(-1);
+              location.href=document.referrer;
+            }else{
+              window.location.href="/btmovies";
+            }
+          },
+          error: function(error){
+            loadingHide();
+            console.log(error);
+            alert(error.responseText);
+            tipShow(error.responseText);
+            // tipShow("此用户存在");
+          }
+        });
+  })
+   window.onload=function()//用window的onload事件，窗体加载完毕的时候
+  {
+      $(".ui-loading-block").removeClass("show");
+  }
+</script>
+</html>

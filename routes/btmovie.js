@@ -9,7 +9,8 @@ var request = require('request');
 var charset = require('superagent-charset');
 var superagent = require('superagent');
 // charset(superagent);
-var movies = AV.Object.extend('movies');
+var Movies = AV.Object.extend('Movies');
+var User = AV.Object.extend('User');
 // `AV.Object.extend` 方法一定要放在全局变量，否则会造成堆栈溢出。
 // 详见： https://leancloud.cn/docs/js_guide.html#对象
 function sendErrorMessage(res,message){
@@ -64,21 +65,108 @@ function btMovies(resp){
         resp.send(datas);
     })
 }
+
 //去除前后空格
 function leaveBlank(str){
   str = str.replace(/\s+/g,"");
   return str;
 }
-router.post('/getmovie', function(req, res, next) {
-  var movies = new movies();
-  todo.set('content', content);
-  todo.save(null, {
+
+router.post('/saveMovie', function(req, res, next) { //收藏电影
+  var movies = new Movies();
+  var name = req.body.name;
+  console.log(name);
+  var user = AV.User.current();
+  var username = user.get('user');
+  // var name = req.param('name');
+  movies.set('name', name);
+  movies.set('email',username);
+  movies.save(null, {
     success: function(todo) {
-      res.redirect('/todos');
+      // res.redirect('/todos');
+      console.log("success");
+      movieId = movies.id;
+      var result = {
+                    code: 200,
+                    id: movieId,
+                    message: 'Operation succeeded'
+                }
+       res.send(result);
     },
     error: function(err) {
       next(err);
     }
   })
 })
+
+router.post('/delMovie',function(req, res, next){//取消收藏
+	var id = req.body.id;
+	// var name = req.param('name');
+	console.log(id);
+	var movies = AV.Object.createWithoutData('Movies', id);
+  	movies.destroy().then(function (success) {
+  	console.log(success);
+  	console.log("删除成功");
+    // 删除成功
+  }, function (error) {
+  	console.log(error);
+  	console.log("删除失败");
+    // 删除失败
+  });
+	// AV.Query.doCloudQuery('delete from Movies where id="578f419d79bc44005f058661"').then(function (data) {
+	// 	console.log("删除成功");
+ //  }, function (error) {
+ //  	console.log("删除失败");
+ //  });
+})
+
+router.post('/signUp',function(req, res, next){//注册
+	var email = req.body.email;
+	var name = req.body.name;
+	var password = req.body.password;
+	// console.log(email);
+	var _User = new User();
+	// 设置用户名
+  	_User.setUsername(name);
+  	// 设置密码
+  	_User.setPassword(password);
+  	// 设置邮箱
+  	_User.setEmail(email);
+  	_User.signUp().then(function (loginedUser) {
+      console.log(loginedUser);
+      console.log('success');
+      var result = {
+                    code: 200,
+                    message: 'Operation succeeded'
+                }
+      res.send(result);
+  	}, (function (error) {
+  		console.log('error');
+  	}));
+})
+
+router.post('/signin',function(req, res, next){//登陆
+	var name = req.body.name;
+	var password = req.body.password; 
+	AV.User.logIn(name, password).then(function (_User) {
+    	// console.log(loginedUser);
+    	console.log("success");
+    	var result = {
+                    code: 200,
+                    username:name,
+                    message: 'Operation succeeded'
+                }
+      res.send(result);
+  	}, function (error) {
+  		console.log(error);
+  	});
+ })
+
+router.post('/reset',function(req, res, next){//邮箱重置密码
+	var email = req.body.email;
+	AV.User.requestPasswordReset(email).then(function (success) {
+  		}, function (error) {
+  	});
+ })
+
 module.exports = router;

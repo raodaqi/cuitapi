@@ -65,6 +65,14 @@ app.get('/btmovies', function(req, res) {
   res.render('btmovies', { currentTime: new Date() });
 });
 
+app.get('/signin', function(req, res) {
+  res.render('signin', { currentTime: new Date() });
+});
+
+app.get('/signup', function(req, res) {
+  res.render('signup', { currentTime: new Date() });
+});
+
 app.get('/test', function(req, res) {
   res.send("hello");
 });

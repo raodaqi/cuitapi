@@ -109,10 +109,12 @@ function tixing(){
         success : function(result){
           console.log(result);
           for(var i = 0 ;i < result.length ; i++){
-          	if(result.data[i].name){
+          	var name = result.data[i].name;
+          	if(name){
           	var imgs = result.data[i].img;
-          	var str = '<div class="card"><div class="card-header">'+result.data[i].name+'</div><div class="card-content"><div class="card-content-inner"><img src="'+imgs+'"><div class="details"><div class="score">'+result.data[i].score+'</div><div class="detail">'+result.data[i].detail+'</div></div><div class="time">'+result.data[i].time+'</div></div></div><div class="card-footer"><label class="label-switch"><input type="checkbox"><div class="checkbox"></div></label></div></div>';        	
-          	$(".content").append(str);  
+          	var str = '<div class="card"><div class="card-header ">'+name+'</div><div class="card-content"><div class="card-content-inner"><img src="'+imgs+'"><div class="details"><div class="score">'+result.data[i].score+'</div><div class="detail">'+result.data[i].detail+'</div></div><div class="time">'+result.data[i].time+'</div></div></div><div class="card-footer"><label class="label-switch"><input type="checkbox"><div class="checkbox"  data-name="'+name+'" data-id="123"></div></label></div></div>';        	
+          	$(".content").append(str); 
+          	// console.log($(".checkbox").attr("data-name")); 
           	}                 
           }
         },
@@ -121,6 +123,56 @@ function tixing(){
         }
       });
 }
+$(".content").on("click",".checkbox",function(){
+	// console.log(1233);
+	var name = $(this).attr("data-name");
+	// var n = $(this).prev().attr("data-name");
+	// console.log(n);
+	if($(this).prev().is(':checked') == true){
+		var id = $(this).attr("data-id");
+		console.log(id);
+		console.log(1);
+		$.ajax({
+        		type : "post",
+        		url: "/btmovie/delMovie",
+				data: {id: id},
+        		dataType: "json",
+        		success : function(result){
+          			console.log(result);
+          		},
+        		error:function(error){
+          			console.log(error);
+        		}
+      		});
+	}
+	// if($("input[type='checkbox']").is(':checked') == true){
+	// 	console.log(1);//取消关注信息
+	// }
+	else{	
+		console.log(name);
+			console.log(2);//关注信息
+			$.ajax({
+        		type : "post",
+        		url: "/btmovie/saveMovie",
+				data: {name: name},
+        		dataType: "json",
+        		success : function(result){
+          			console.log(result);
+          			var id = result.id;
+          			console.log(id);
+          			$(".checkbox").each(function(i,ele){
+          				var names = $(this).attr("data-name");
+          				if(names == name){
+          					$(this).attr("data-id",id);
+          				}
+          			})         			
+          		},
+        		error:function(error){
+          			console.log(error);
+        		}
+      		});
+		}
+})
 // tixing();
 // function tixing(){
 // 	console.log($(".checkbox").width());
