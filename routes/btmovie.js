@@ -25,7 +25,7 @@ router.get('/btMovies', function(req, resp, next) {
 });
 
 function btMovies(resp){
-  var url = "http://www.bttiantang.cc/";
+  var url = "http://www.hdtiantang.com/";
   var code = 200;
   var message = "success";
   superagent.get(url)
