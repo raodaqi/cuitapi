@@ -148,6 +148,7 @@ router.get('/login', function(req, resp, next) {
                             .end(function(err,result){
                               // console.log(result);
                               resp.send(result.text);
+                              formatGrade(result.text)
                             })
                           })
                         }) 
@@ -155,40 +156,33 @@ router.get('/login', function(req, resp, next) {
                     })    
                 })
             })
-
-          // resp.send(data);
-          // var url = 'http://210.41.224.117/Login/qqLogin.asp';
-          // superagent
-          //   .get(url)
-          //   .set('Referer', 'http://210.41.224.117/Login/xLogin/Login.asp')
-          //   .set('Host', '210.41.224.117')
-          //   .set('Connection', 'keep-alive')
-          //   .set('Cache-Control', 'max-age=0')
-          //   .set('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36')
-          //   .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
-          //   .set("Accept-Language","zh-CN,zh;q=0.8")
-          //   .set("Accept-Encoding","gzip, deflate, sdch")
-          //   .set("Cookie",jszx_cookie)
-          //   .end(function(err,result){
-          //     console.log(result.headers);
-          //     console.log(result);
-          //     resp.send(result.text);
-          //     var url = 'http://jxgl.cuit.edu.cn/Jxgl/Login/tyLogin.asp';
-          //     // superagent.get(url)
-          //     //   // .charset('gbk')
-          //     //   // .set("Cookie",jszx_cookie)
-          //     //   // .set('Referer', 'http://210.41.224.117/Login/xLogin/Login.asp')
-          //     //   .end((err, result) => {
-          //     //     console.log(result.headers);
-          //     //     console.log(result);
-          //     //     // console.log(result);
-          //     //     // resp.send(result.text);
-          //     //   });
-          //   });
         }
       })
-    // }
 });
+
+function formatGrade(content){
+  var $ = cheerio.load(content);
+  // console.log($(".tabThinM:last-children")[6]);
+  //各学期各门课程的最后成绩
+  // var $grade_table = $(".tabThinM")[6];
+  var gradeArray = [];
+  $(".tabThinM").each(function(i,ele){
+    console.log(i);
+    if(i == 6){
+      // console.log($(this).find("tr"));
+      //编辑所有的tr
+      $(this).find("tr").each(function(i,ele){
+        //判断是否是时间标题
+        console.log($(this).find("td").length);
+        if($(this).find("td").length == 1){
+          var year = $(this).find("td").text();
+          console.log(year);
+        }
+      })
+    }
+  })
+
+}
 
 //获取成绩
 router.get('/getjwc', function(req, resp, next){
