@@ -8,66 +8,240 @@ var qs = require('querystring');
 var request = require('request');
 var charset = require('superagent-charset');
 var superagent = require('superagent');
+var session = require('express-session');
 charset(superagent);
+
+router.use(session({
+    secret: '12345',
+    name: 'testapp',   //这里的name值得是cookie的name，默认cookie的name是：connect.sid
+    cookie: {maxAge: 80000 },  //设置maxAge是80000ms，即80s后session和相应的cookie失效过期
+    resave: false,
+    saveUninitialized: true,
+}));
 
 // `AV.Object.extend` 方法一定要放在全局变量，否则会造成堆栈溢出。
 // 详见： https://leancloud.cn/docs/js_guide.html#对象
 
 // 查询 Todo 列表
-router.get('/', function(req, resp, next) {
+router.get('/getvfcode', function(req, resp, next) {
+  getCodeKey('',{
+    success:function(code,jszx_cookie){
+      req.session.jszx_cookie = jszx_cookie;
+      req.session.code = code;
+      var time = new Date().getTime();
+      var url = "http://210.41.224.117/Login/xLogin/yzmDvCode.asp?k="+code+"&t="+time;
+      superagent.get(url)
+        .set("Cookie",jszx_cookie)
+        .set("Referer", "http://210.41.224.117/Login/xLogin/Login.asp")
+        .end((err, res) => {
+          // console.log(res.text);
+          if(res.statusCode == 200){
+            var data = new Buffer(res.text, 'binary').toString('base64');
+            // resp.send("<img src=data:text/html;base64,"+res.text+"/>");
+            // data = "data:text/html;base64,"+data;
+            // var result = {
+            //   data   : data,
+            //   code   : 200,
+            //   cookie : cookie
+            // }
+            // resp.send(result);
+            resp.send("<img src='data:text/html;base64,"+data+"'/>");
+          }else{
+            res.send(err);
+          }
+        });
+      },
+      error:function(){
 
-  var time = new Date().getTime();
-  var url = "http://210.41.224.117/Login/xLogin/yzmDvCode.asp?k=31163&t="+time;
-  superagent.get(url)
-    .set("Referer", "http://210.41.224.117/Login/xLogin/Login.asp")
-    .set("Accept", "image/webp,image/*,*/*;q=0.8")
-    // .set("Content-Type","image/bmp")
-    // .charset('base64')
-    .accept('image/webp,image/*,*/*;q=0.8')
-    .end((err, res) => {
-      // console.log(res.text);
-      if(res.statusCode == 200){
-        console.log(res.text);
-        var data = new Buffer(res.text, 'binary').toString('base64');
-        // resp.send("<img src=data:text/html;base64,"+res.text+"/>");
-        console.log(data);
-        resp.send("<img src='data:text/html;base64,"+data+"'/>");
-      }else{
-        res.send(err);
       }
     });
 });
 
-router.get('/getvfcode', function(req, res, next) {
-  getCodeKey({
-    success:function(code){
-      getJWCVfCode(code,{
-        success:function(data){
-          // res.send("<img src="+data+"/>");
-          sendSuccessMessage(res,data);
-        },
-        error:function(error){
-          sendErrorMessage(res,error);
-        }
-      })
-    },
-    error:function(error){
-      sendErrorMessage(res.error);
-    }
+router.get('/ocr', function(req, resp, next) {
+  var url = "http://word.bj.baidubce.com/v1/ocr/general";
+  superagent.post(url)
+  .set("host","word.bj.baidubce.com")
+  .set("authorization", "bce-auth-v1/46bd9968a6194b4bbdf0341f2286ccce/2015-03-24T13:02:00Z/1800/host;x-bce-date/994014d96b0eb26578e039fa053a4f9003425da4bfedf33f4790882fb4c54903")
+  .end((err, res) => {
+    // console.log(res.text);
   });
-  // getJWCVfCode({
-  //   success:function(data){
-  //     // res.send("<img src="+data+"/>");
-  //     sendSuccessMessage(res,data);
-  //   },
-  //   error:function(error){
-  //     sendErrorMessage(res,error);
-  //   }
-  // })
 });
 
+
+//登陆教务处
+router.get('/login', function(req, resp, next) {
+  // var jwc_cookie = req.session.jwc_cookie;
+  // if(!jwc_cookie){
+    var txtId      = req.query.name,
+        txtMM      = req.query.passwd,
+        verifycode = req.query.verifycode;
+    var jszx_cookie = req.session.jszx_cookie ? req.session.jszx_cookie : '';
+    var code = req.session.code ? req.session.code : 1;
+    //获取codekey
+    var postData = "WinW=1920&WinH=1040&txtId="+txtId+"&txtMM="+txtMM+"&verifycode="+verifycode+"&codeKey="+code+"&Login=Check";
+    var url = "http://210.41.224.117/Login/xLogin/Login.asp";
+    superagent.post(url)
+      .send(postData)
+      .set('Referer', 'http://210.41.224.117/Login/xLogin/Login.asp')
+      .set("Cookie",jszx_cookie)
+      .end((err, res) => {
+        if(res.statusCode == 200){
+          // console.log(res);
+          // resp.send(res.text)
+          // return;
+          var data = res.text;
+          var url = "http://jxgl.cuit.edu.cn/Jxgl/Xs/MainMenu.asp";
+          superagent
+            .get(url)
+            // .set("Cookie",jszx_cookie)
+            .end(function(err,result){
+              var jwc_cookie = result.headers['set-cookie'];
+              if(!jwc_cookie){
+                jwc_cookie = ''
+              }else{
+                if(jwc_cookie[0].split(";").length){
+                  jwc_cookie = jwc_cookie[0].split(";")[0];
+                }else{
+                  jwc_cookie = '';
+                }
+              }
+              console.log(jwc_cookie);
+              var url = "http://jxgl.cuit.edu.cn/Jxgl/UserPub/Login.asp?UTp=Xs";
+              superagent
+                .get(url)
+                .set("Cookie",jwc_cookie)
+                .end(function(err,result){
+                  var url = "http://jxgl.cuit.edu.cn/Jxgl/Login/tyLogin.asp";
+                  superagent
+                    .get(url)
+                    .set("Cookie",jwc_cookie)
+                    .end(function(err,result){
+                      // console.log(result.text);
+                      var retext = result.text;
+                      var sid1url = retext.split("URL=")[1].split("\">")[0];
+                      console.log(sid1url);
+                      superagent
+                      .get(sid1url)
+                      .charset('gbk')
+                      .set("Cookie",jszx_cookie)
+                      .end(function(err,result){
+                        // console.log(result);
+                        superagent
+                        .get("http://210.41.224.117/Login/qqLogin.asp")
+                        .charset('gbk')
+                        .set("Cookie",jszx_cookie)
+                        .end(function(err,result){
+                          // console.log(result);
+                          superagent
+                          .get("http://jxgl.cuit.edu.cn/Jxgl/Login/tyLogin.asp")
+                          .charset('gbk')
+                          .set("Cookie",jwc_cookie)
+                          .set("handle_redirects","true")
+                          .end(function(err,result){
+                            // console.log(result);
+                            // return;
+                            superagent
+                            .get("http://jxgl.cuit.edu.cn/Jxgl/UserPub/GetCjByXh.asp?UTp=Xs")
+                            .set("Referer","http://jxgl.cuit.edu.cn/Jxgl/Xs/MainMenu.asp")
+                            .charset('gbk')
+                            .set("Cookie",jwc_cookie)
+                            .end(function(err,result){
+                              // console.log(result);
+                              resp.send(result.text);
+                            })
+                          })
+                        }) 
+                      }) 
+                    })    
+                })
+            })
+
+          // resp.send(data);
+          // var url = 'http://210.41.224.117/Login/qqLogin.asp';
+          // superagent
+          //   .get(url)
+          //   .set('Referer', 'http://210.41.224.117/Login/xLogin/Login.asp')
+          //   .set('Host', '210.41.224.117')
+          //   .set('Connection', 'keep-alive')
+          //   .set('Cache-Control', 'max-age=0')
+          //   .set('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.89 Safari/537.36')
+          //   .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
+          //   .set("Accept-Language","zh-CN,zh;q=0.8")
+          //   .set("Accept-Encoding","gzip, deflate, sdch")
+          //   .set("Cookie",jszx_cookie)
+          //   .end(function(err,result){
+          //     console.log(result.headers);
+          //     console.log(result);
+          //     resp.send(result.text);
+          //     var url = 'http://jxgl.cuit.edu.cn/Jxgl/Login/tyLogin.asp';
+          //     // superagent.get(url)
+          //     //   // .charset('gbk')
+          //     //   // .set("Cookie",jszx_cookie)
+          //     //   // .set('Referer', 'http://210.41.224.117/Login/xLogin/Login.asp')
+          //     //   .end((err, result) => {
+          //     //     console.log(result.headers);
+          //     //     console.log(result);
+          //     //     // console.log(result);
+          //     //     // resp.send(result.text);
+          //     //   });
+          //   });
+        }
+      })
+    // }
+});
+
+//获取成绩
+router.get('/getjwc', function(req, resp, next){
+  var cookie = req.session.jwc_cookie;
+  console.log(cookie);
+  if(!cookie){
+    res.send("cookie过期");
+    return;
+  }else{
+    var url = 'http://jxgl.cuit.edu.cn/Jxgl/Xs/MainMenu.asp';
+    superagent.get(url)
+    .charset('gbk')
+    .set("Cookie",cookie)
+    .end((err, res) => {
+      console.log(res.text);
+      resp.send(res.text);
+    });
+  }
+});
+
+
+
+
+// router.get('/getvfcode', function(req, res, next) {
+//   getCodeKey({
+//     success:function(code){
+//       getJWCVfCode(code,{
+//         success:function(data){
+//           // res.send("<img src="+data+"/>");
+//           sendSuccessMessage(res,data);
+//         },
+//         error:function(error){
+//           sendErrorMessage(res,error);
+//         }
+//       })
+//     },
+//     error:function(error){
+//       sendErrorMessage(res.error);
+//     }
+//   });
+//   // getJWCVfCode({
+//   //   success:function(data){
+//   //     // res.send("<img src="+data+"/>");
+//   //     sendSuccessMessage(res,data);
+//   //   },
+//   //   error:function(error){
+//   //     sendErrorMessage(res,error);
+//   //   }
+//   // })
+// });
+
 router.get('/getcodekey', function(req, res, next) {
-  getCodeKey({
+  getCodeKey('',{
     success:function(code){
       // sendSuccessMessage(res,code);
       var result = {
@@ -101,19 +275,19 @@ function JWCLogin(){
 }
 
 
-function getCodeKey(callback){
+function getCodeKey(cookie,callback){
   var url = 'http://210.41.224.117/Login/xLogin/Login.asp';
-  superagentUrlData('',url,'',{
-    success:function(body){
-      console.log(body);
+  superagentUrlData(cookie,url,'',{
+    success:function(body,jwc_cookie){
+      // console.log(body);
       // var $ = cheerio.load(res.text);
       var $ = cheerio.load(body);
       var codeKey = $("input[name=codeKey]").val();
-      console.log(codeKey);
+      // console.log(codeKey);
       if(codeKey){
-        callback.success(codeKey);
+        callback.success(codeKey,jwc_cookie);
       }else{
-        callback.error($("body").text());
+        callback.error($("body").text(),jwc_cookie);
       }
     },
     error:function(error){
@@ -132,9 +306,9 @@ function getJWCVfCode(code,callback){
     .accept('image/webp,image/*,*/*;q=0.8')
     .end((err, res) => {
       if(res.statusCode == 200){
-        console.log(res.text);
+        // console.log(res.text);
         var data = new Buffer(res.text, 'binary').toString('base64');
-        console.log(data);
+        // console.log(data);
         var data = "data:text/html;base64,"+data;
         callback.success(data);
         // resp.send("<img src='data:text/html;base64,"+data+"'/>");
@@ -216,7 +390,7 @@ function requestUrlData(cookie,url,charset,callback){
       //console.log(headers);  
       var cookies=cookie;  
       cookies.forEach(function(cookie){  
-          console.log(cookie);  
+          // console.log(cookie);  
       });
 
       res.on('data', function(data) {
@@ -241,28 +415,76 @@ function superagentUrlData(cookie,url,charset,callback){
   if(cookie){
     superagent.get(url)
     .charset('gbk')
-    .set("Cookie",cookie)
     .end((err, res) => {
-      // console.log(res.text);
-      if(res.statusCode == 200){
-        callback.success(res.text);
+      console.log(res.text);
+      var cookie = res.headers['set-cookie'];
+      if(!cookie){
+        cookie = ''
       }else{
-        callback.error(res.text);
+        // console.log(cookie);
+        if(cookie[0].split(";").length){
+          // console.log(cookie[0].split(";")[0]);
+          cookie = cookie[0].split(";")[0];
+        }else{
+          // console.log(cookie[0]);
+          cookie = '';
+        }
+      }
+
+      if(res.statusCode == 200){
+        callback.success(res.text,cookie);
+      }else{
+        callback.error(res.text,cookie);
       }
     });
   }else{
     superagent.get(url)
     .charset('gbk')
     .end((err, res) => {
-      // console.log(res.text);
+      var cookie = res.headers['set-cookie'];
+      // console.log(cookie);
+      if(cookie[0].split(";").length){
+        // console.log(cookie[0].split(";")[0]);
+        cookie = cookie[0].split(";")[0];
+      }else{
+        // console.log(cookie[0]);
+        cookie = '';
+      }
+
       if(res.statusCode == 200){
+        callback.success(res.text,cookie);
+      }else{
+        callback.error(res.text,cookie);
+      }
+    });
+  }
+}
+
+//获取课程
+function superagentPostWithCookie(cookie,url,charset,send,callback){
+  superagent.post(url)
+    .send(send)
+    .set('Referer', 'http://210.41.224.117/Login/xLogin/Login.asp')
+    .set("Cookie",cookie)
+    .end((err, res) => {
+      if(res.statusCode == 200){
+        // console.log(res.headers['set-cookie']);
+        // var cookie = res.headers['set-cookie'];
+        // console.log(cookie);
+        // if(cookie[0].split(";").length){
+        //   console.log(cookie[0].split(";")[0]);
+        //   cookie = cookie[0].split(";")[0];
+        // }else{
+        //   console.log(cookie[0]);
+        //   cookie = '';
+        // }
+
         callback.success(res.text);
+        //解析出方式一的链接
       }else{
         callback.error(res.text);
       }
     });
-  }
- 
 }
 
 //获取课程
