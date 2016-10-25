@@ -23,7 +23,8 @@
     "request":"2.72.0",
     "superagent":"2.0.0",
     "cheerio":"0.20.0",
-    "iconv-lite":"0.4.13"
+    "iconv-lite":"0.4.13",
+    "express-session":"1.14.1"
   },
   "engines": {
     "node": "4.x"

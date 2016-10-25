@@ -67,6 +67,16 @@ router.get('/ocr', function(req, resp, next) {
   });
 });
 
+router.get('/zhms', function(req, resp, next) {
+  var url = "http://www.zhms.cn/News/yinyang/";
+  superagent.get(url)
+  .charset('gbk')
+  .end((err, res) => {
+    console.log(res.text);
+    resp.send(res.text);
+  });
+});
+
 
 //登陆教务处
 router.get('/login', function(req, resp, next) {
@@ -147,8 +157,8 @@ router.get('/login', function(req, resp, next) {
                             .set("Cookie",jwc_cookie)
                             .end(function(err,result){
                               // console.log(result);
-                              resp.send(result.text);
-                              formatGrade(result.text)
+                              // resp.send(result.text);
+                              formatGrade(result.text,resp)
                             })
                           })
                         }) 
@@ -160,25 +170,128 @@ router.get('/login', function(req, resp, next) {
       })
 });
 
-function formatGrade(content){
+function formatGrade(content,resp){
   var $ = cheerio.load(content);
   // console.log($(".tabThinM:last-children")[6]);
   //各学期各门课程的最后成绩
   // var $grade_table = $(".tabThinM")[6];
-  var gradeArray = [];
+  var gradeArray = new Array();
+  var arrayLength = 0;
   $(".tabThinM").each(function(i,ele){
-    console.log(i);
     if(i == 6){
       // console.log($(this).find("tr"));
+      //定义一个json数组保存成绩信息
       //编辑所有的tr
+
+      //定义一个json保存成绩信息
+      var grade = {};
+      var course_content = new Array();
+
       $(this).find("tr").each(function(i,ele){
         //判断是否是时间标题
-        console.log($(this).find("td").length);
+
         if($(this).find("td").length == 1){
-          var year = $(this).find("td").text();
-          console.log(year);
+
+          if(grade.course && grade.year){
+            gradeArray[arrayLength] = grade;
+            arrayLength++;
+            grade = {};
+            course_content = new Array();
+            // gradeArray.push(grade);
+          }else{
+            grade = {};
+            course_content = new Array();
+          }
+
+          var title_content = $(this).find("td").text();
+          var year_content = title_content.split(" ");
+          //解析学年
+          var year = year_content[0].replace("第","").replace("学年","").replace("--","-");
+          //解析学期
+          var team = year_content[1].split("(")[0].match(/\d+/g)[0];
+          //解析GPA
+          var gpa = year_content[1].split(", ")[4].split(")")[0];
+          // console.log(year+"/"+team+"/"+gpa);
+          grade.year = year;
+          grade.team = team;
+          grade.gpa = gpa;
+
+          console.log(year_content);
+        }else{
+          console.log("000000");
+          //课程名称
+          // var course_name = $(this).find("a").text();
+
+          var course = new Array();
+          //课程学时
+          var course_hours = $(this).find("font");
+          $(this).find("TD").each(function(k,ele){
+            // $(this).children("FONT").each(function(i,ele){
+            //   course.push($(this).text());
+            // })
+            // console.log($(this).text());
+            // course.push($(this).text())
+            var key = 0;
+            for(var i= 0; i < $(this).text().split(/[\r]/g).length;i++){
+              for(var j = 0; j < $(this).text().split(/[\r]/g)[i].split(/[\n]/g).length;j++){
+                if($(this).text().split(/[\r]/g)[i].split(/[\n]/g)[j] && !key){
+                  key = 1;
+                  var course_text = $(this).text().split(/[\r]/g)[i].split(/[\n]/g)[j];
+                  if(k == 6){
+                    course_text = course_text.substr(0,3);
+                    if(course_text!=100){
+                      course_text = course_text.substr(0,2);
+                    }
+                    course.push(course_text);
+                  }else{
+                    course.push(course_text);
+                  }
+                  break;
+                }
+              }
+            }
+          })
+          // console.log(course);
+          if(course.length > 7){
+            var course_once = {
+              "course_name"      : course[1],
+              "period"           : course[2],
+              "credit"           : course[3],
+              "usual_grade"      : course[4],
+              "final_exam_grade" : course[5],
+              "grade"            : course[6] 
+            }
+            course_content.push(course_once);
+            var course_once = {
+              "course_name"      : course[8],
+              "period"           : course[9],
+              "credit"           : course[10],
+              "usual_grade"      : course[11],
+              "final_exam_grade" : course[12],
+              "grade"            : course[13] 
+            }
+            course_content.push(course_once);
+          }else{
+            var course_once = {
+              "course_name"      : course[1],
+              "period"           : course[2],
+              "credit"           : course[3],
+              "usual_grade"      : course[4],
+              "final_exam_grade" : course[5],
+              "grade"            : course[6] 
+            }
+            course_content.push(course_once);
+          }
+          grade.course = course_content;
         }
       })
+      if(grade.course){
+        gradeArray[arrayLength] = grade;
+        arrayLength++;
+        // gradeArray.push(grade);
+      }
+      // console.log(gradeArray);
+      resp.send(gradeArray);
     }
   })
 
