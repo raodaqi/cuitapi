@@ -10,6 +10,8 @@ var grade = require('./routes/grade');
 var anment = require('./routes/anment');
 var btmovie = require('./routes/btmovie');
 var jwcnew = require('./routes/jwcnew');
+var xgnew = require('./routes/xgnew');
+var indexnew = require('./routes/indexnew');
 var cloud = require('./cloud');
 
 var app = express();
@@ -78,6 +80,7 @@ app.get('/signup', function(req, res) {
   res.render('signup', { currentTime: new Date() });
 });
 
+
 app.get('/test', function(req, res) {
   res.send("hello");
 });
@@ -86,12 +89,14 @@ app.post('/test', function(req, res) {
 });
 
 // 可以将一类的路由单独保存在一个文件中
-app.use('/todos', todos);
-app.use('/classtb', classtb);
-app.use('/grade', grade);
-app.use('/anment', anment);
-app.use('/btmovie',btmovie);
-app.use('/jwcnew',jwcnew);
+app.use('/todos', todos);   
+app.use('/classtb', classtb);  //获取班级课表
+app.use('/grade', grade);      //获取成绩
+app.use('/anment', anment);    
+app.use('/btmovie',btmovie);   //获取bt天堂最新电影
+app.use('/jwcnew',jwcnew);     //获取教务处新闻
+app.use('/xgnew',xgnew);       //获取学工网新闻
+app.use('/indexnew',indexnew);  //获取官网首页新闻
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
 app.use(function(req, res, next) {
