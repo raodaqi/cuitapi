@@ -42,7 +42,7 @@ function indexNew(resp) {
   var code = 200;
   var message = "success";
   superagent.get(url)
-    .charset("gbk")
+    .charset("UTF-8")
     .end((err, res) => {
     	 if(!res){
         sendErrorMessage(resp);
@@ -55,46 +55,46 @@ function indexNew(resp) {
           var data2 = {};
           var data3 = {};
           var data4 = {};
-          // $("#XGYW a").each(function(i,ele){
-          // var text  = $(this).text();
-          // var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          // data1[i] ={
-          //   title : "学工要闻",
-          //   text : text,
-          //   url : url
-          // }
-          // i++;
-          // })
-          // $("#YXDT a").each(function(i,ele){
-          // var text  = $(this).text();
-          // var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          // data2[i] ={
-          //   title : "学院动态",
-          //   text : text,
-          //   url : url
-          // }
-          // i++;
-          // })
-          // $("#QCBY a").each(function(i,ele){
-          // var text  = $(this).text();
-          // var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          // data3[i] ={
-          //   title : "青春榜样",
-          //   text : text,
-          //   url : url
-          // }
-          // i++;
-          // })
-          // $("#ZTHD a").each(function(i,ele){
-          // var text  = $(this).text();
-          // var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          // data4[i] ={
-          //   title : "专题活动",
-          //   text : text,
-          //   url : url
-          // }
-          // i++;
-          // })
+          $("#New1 a").each(function(i,ele){
+          var text  = $(this).text();
+          var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
+          data1[i] ={
+            title : "综合新闻",
+            text : text,
+            url : url
+          }
+          i++;
+          })
+          $("#New2 a").each(function(i,ele){
+          var text  = $(this).text();
+          var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
+          data2[i] ={
+            title : "信息公告",
+            text : text,
+            url : url
+          }
+          i++;
+          })
+          $("#New4 a").each(function(i,ele){
+          var text  = $(this).text();
+          var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
+          data3[i] ={
+            title : "学术动态",
+            text : text,
+            url : url
+          }
+          i++;
+          })
+          $("#hlFocus").each(function(i,ele){
+          var text  = $(this).text();
+          var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
+          data4[i] ={
+            title : "焦点新闻",
+            text : text,
+            url : url
+          }
+          i++;
+          })
           var datas = {code,message,data1,data2,data3,data4};
           console.log(datas);
         resp.send(datas);
