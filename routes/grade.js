@@ -24,6 +24,77 @@ router.use(session({
 
 // 查询 Todo 列表
 router.get('/getvfcode', function(req, resp, next) {
+  var type = req.query.type ? req.query.type : 3;
+  getCodeKey('',{
+    success:function(code,jszx_cookie){
+      if(!jszx_cookie){
+        var err = {
+          code    : 600,
+          data    : [],
+          message : "啊偶~教务处君忙碌中，请耐心等待"
+        }
+        res.send(err);
+        return;
+      }
+      req.session.jszx_cookie = jszx_cookie;
+      req.session.code = code;
+      var time = new Date().getTime();
+      var url = "http://210.41.224.117/Login/xLogin/yzmDvCode.asp?k="+code+"&t="+time;
+      superagent.get(url)
+        .set("Cookie",jszx_cookie)
+        .set("Referer", "http://210.41.224.117/Login/xLogin/Login.asp")
+        .end((err, res) => {
+
+          if(err){
+            var err = {
+              code    : 600,
+              data    : [],
+              message : "获取失败"
+            }
+            res.send(err);
+            return;
+          }
+
+          // console.log(res.text);
+          if(res.statusCode == 200){
+            var data = new Buffer(res.text, 'binary').toString('base64');
+            // resp.send("<img src=data:text/html;base64,"+res.text+"/>");
+            // data = "data:text/html;base64,"+data;
+            // var result = {
+            //   data   : data,
+            //   code   : 200,
+            //   cookie : cookie
+            // }
+            // resp.send(new Buffer(res.text, 'binary'));
+            
+            if(type == 1){
+              resp.send(new Buffer(res.text, 'binary'));
+            }else if(type == 2){
+              var result = {
+                data    : data,
+                code    : 200,
+                message : "success"
+              }
+              resp.send(result);
+            }else{
+              resp.send("<img src='data:text/html;base64,"+data+"'/>");
+            }
+          }else{
+            var err = {
+              code    : 400,
+              data    : [],
+              message : "验证码获取失败"
+            }
+            res.send(err);
+          }
+        });
+      },
+      error:function(){
+      }
+    });
+});
+
+router.get('/getvfcodeSrc', function(req, resp, next) {
   getCodeKey('',{
     success:function(code,jszx_cookie){
       req.session.jszx_cookie = jszx_cookie;
@@ -37,25 +108,52 @@ router.get('/getvfcode', function(req, resp, next) {
           // console.log(res.text);
           if(res.statusCode == 200){
             var data = new Buffer(res.text, 'binary').toString('base64');
-            // resp.send("<img src=data:text/html;base64,"+res.text+"/>");
-            // data = "data:text/html;base64,"+data;
-            // var result = {
-            //   data   : data,
-            //   code   : 200,
-            //   cookie : cookie
-            // }
-            // resp.send(result);
-            resp.send("<img src='data:text/html;base64,"+data+"'/>");
+            data = "data:text/html;base64,"+data;
+            resp.send(new Buffer(res.text, 'binary'));
           }else{
             res.send(err);
           }
         });
       },
       error:function(){
-
+        
       }
     });
 });
+
+// router.get('/getvfcode', function(req, resp, next) {
+//   getCodeKey('',{
+//     success:function(code,jszx_cookie){
+//       req.session.jszx_cookie = jszx_cookie;
+//       req.session.code = code;
+//       var time = new Date().getTime();
+//       var url = "http://210.41.224.117/Login/xLogin/yzmDvCode.asp?k="+code+"&t="+time;
+//       superagent.get(url)
+//         .set("Cookie",jszx_cookie)
+//         .set("Referer", "http://210.41.224.117/Login/xLogin/Login.asp")
+//         .end((err, res) => {
+//           // console.log(res.text);
+//           if(res.statusCode == 200){
+//             var data = new Buffer(res.text, 'binary').toString('base64');
+//             // resp.send("<img src=data:text/html;base64,"+res.text+"/>");
+//             data = "data:text/html;base64,"+data;
+//             var result = {
+//               data   : data,
+//               code   : 200,
+//               cookie : cookie
+//             }
+//             resp.send("data");
+//             // resp.send("<img src='data:text/html;base64,"+data+"'/>");
+//           }else{
+//             res.send(err);
+//           }
+//         });
+//       },
+//       error:function(){
+
+//       }
+//     });
+// });
 
 router.get('/ocr', function(req, resp, next) {
   var url = "http://word.bj.baidubce.com/v1/ocr/general";
@@ -80,12 +178,24 @@ router.get('/zhms', function(req, resp, next) {
 
 //登陆教务处
 router.get('/login', function(req, resp, next) {
-  // var jwc_cookie = req.session.jwc_cookie;
-  // if(!jwc_cookie){
+  var login_cookie = req.session.login_cookie;
+  if(!login_cookie){
     var txtId      = req.query.name,
         txtMM      = req.query.passwd,
         verifycode = req.query.verifycode;
     var jszx_cookie = req.session.jszx_cookie ? req.session.jszx_cookie : '';
+    console.log(jszx_cookie);
+
+    if(!jszx_cookie){
+      result = {
+        code    : 400,
+        data    : [],
+        message : '没有先获取验证码'
+      }
+      resp.send(result);
+      return;
+    }
+
     var code = req.session.code ? req.session.code : 1;
     //获取codekey
     var postData = "WinW=1920&WinH=1040&txtId="+txtId+"&txtMM="+txtMM+"&verifycode="+verifycode+"&codeKey="+code+"&Login=Check";
@@ -94,17 +204,39 @@ router.get('/login', function(req, resp, next) {
       .send(postData)
       .set('Referer', 'http://210.41.224.117/Login/xLogin/Login.asp')
       .set("Cookie",jszx_cookie)
+      .charset("gbk")
       .end((err, res) => {
         if(res.statusCode == 200){
-          // console.log(res);
-          // resp.send(res.text)
-          // return;
+          var $ = cheerio.load(res.text);
+          var message = $(".user_main_z span").text();
+          if(message){
+            console.log(message);
+            var result = {
+              code    : 601,
+              data    : [],
+              message : message
+            }
+            resp.send(result);
+            return;
+          }
+          
           var data = res.text;
           var url = "http://jxgl.cuit.edu.cn/Jxgl/Xs/MainMenu.asp";
           superagent
             .get(url)
             // .set("Cookie",jszx_cookie)
             .end(function(err,result){
+
+              if(err){
+                var err = {
+                  code    : 600,
+                  data    : [],
+                  message : "跳转失败"
+                }
+                res.send(err);
+                return;
+              }
+
               var jwc_cookie = result.headers['set-cookie'];
               if(!jwc_cookie){
                 jwc_cookie = ''
@@ -121,11 +253,31 @@ router.get('/login', function(req, resp, next) {
                 .get(url)
                 .set("Cookie",jwc_cookie)
                 .end(function(err,result){
+                  if(err){
+                    var err = {
+                      code    : 600,
+                      data    : [],
+                      message : "跳转失败"
+                    }
+                    res.send(err);
+                    return;
+                  }
+
                   var url = "http://jxgl.cuit.edu.cn/Jxgl/Login/tyLogin.asp";
                   superagent
                     .get(url)
                     .set("Cookie",jwc_cookie)
                     .end(function(err,result){
+                      if(err){
+                        var err = {
+                          code    : 600,
+                          data    : [],
+                          message : "跳转失败"
+                        }
+                        res.send(err);
+                        return;
+                      }
+
                       // console.log(result.text);
                       var retext = result.text;
                       var sid1url = retext.split("URL=")[1].split("\">")[0];
@@ -135,12 +287,30 @@ router.get('/login', function(req, resp, next) {
                       .charset('gbk')
                       .set("Cookie",jszx_cookie)
                       .end(function(err,result){
+                        if(err){
+                          var err = {
+                            code    : 600,
+                            data    : [],
+                            message : "跳转失败"
+                          }
+                          res.send(err);
+                          return;
+                        }
                         // console.log(result);
                         superagent
                         .get("http://210.41.224.117/Login/qqLogin.asp")
                         .charset('gbk')
                         .set("Cookie",jszx_cookie)
                         .end(function(err,result){
+                          if(err){
+                            var err = {
+                              code    : 600,
+                              data    : [],
+                              message : "跳转失败"
+                            }
+                            res.send(err);
+                            return;
+                          }
                           // console.log(result);
                           superagent
                           .get("http://jxgl.cuit.edu.cn/Jxgl/Login/tyLogin.asp")
@@ -148,15 +318,34 @@ router.get('/login', function(req, resp, next) {
                           .set("Cookie",jwc_cookie)
                           .set("handle_redirects","true")
                           .end(function(err,result){
+                            if(err){
+                              var err = {
+                                code    : 600,
+                                data    : [],
+                                message : "跳转失败"
+                              }
+                              res.send(err);
+                              return;
+                            }
                             // console.log(result);
                             // return;
+                            req.session.login_cookie = jwc_cookie;
                             superagent
                             .get("http://jxgl.cuit.edu.cn/Jxgl/UserPub/GetCjByXh.asp?UTp=Xs")
                             .set("Referer","http://jxgl.cuit.edu.cn/Jxgl/Xs/MainMenu.asp")
                             .charset('gbk')
                             .set("Cookie",jwc_cookie)
                             .end(function(err,result){
-                              // console.log(result);
+                              if(err){
+                                var err = {
+                                  code    : 600,
+                                  data    : [],
+                                  message : "获取成绩失败"
+                                }
+                                res.send(err);
+                                return;
+                              }
+                              // console.log(result.text);
                               // resp.send(result.text);
                               formatGrade(result.text,resp)
                             })
@@ -168,6 +357,18 @@ router.get('/login', function(req, resp, next) {
             })
         }
       })
+    }else{
+      superagent
+      .get("http://jxgl.cuit.edu.cn/Jxgl/UserPub/GetCjByXh.asp?UTp=Xs")
+      .set("Referer","http://jxgl.cuit.edu.cn/Jxgl/Xs/MainMenu.asp")
+      .charset('gbk')
+      .set("Cookie",login_cookie)
+      .end(function(err,result){
+        // console.log(result);
+        // resp.send(result.text);
+        formatGrade(result.text,resp)
+      })
+    }
 });
 
 function formatGrade(content,resp){
@@ -177,6 +378,17 @@ function formatGrade(content,resp){
   // var $grade_table = $(".tabThinM")[6];
   var gradeArray = new Array();
   var arrayLength = 0;
+
+  if(!$(".tabThinM").length){
+    var err = {
+      code    : 601,
+      data    : [],
+      message : "获取成绩失败"
+    }
+    res.send(err);
+    return;
+  }
+
   $(".tabThinM").each(function(i,ele){
     if(i == 6){
       // console.log($(this).find("tr"));
