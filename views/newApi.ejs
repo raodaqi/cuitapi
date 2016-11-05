@@ -250,6 +250,9 @@
           <li class="menu-li getAllPro"><a href="#getAllPro">获取所有专业</a></li>
           <li class="menu-li getClassTB"><a href="#getClassTB">获取班级课表</a></li>
           <li class="menu-li getJwcnew"><a href="#getJwcnew">获取教务处公告</a></li>
+          <!-- 获取教务处验证码 -->
+          <li class="menu-li getGradeVfcode"><a href="#getGradeVfcode">获取教务处验证码</a></li>
+          <li class="menu-li getGrade"><a href="#getGrade">获取学生成绩</a></li>
           <li class="title bold"><img src="/img/ShareSDK_icon-01.png"> 娱乐</li>
           <li class="menu-li getBtmovie"><a href="#getBtmovie">获取BT天堂最新电影信息</a></li>
           <li class="title bold"><img src="/img/ShareSDK_icon-02.png"> 更新中...</li>
@@ -370,6 +373,131 @@
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["01班","02班",...]</p>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
             <p><span class="pln">}</p> -->
+          <p>
+        </section>
+        
+        <!-- 获取教务处验证码 -->
+        <section class="sec-content" id="getGradeVfcode">
+          <h1 class="sec-title">获取教务处验证码</h1>
+          <p>
+            描述:
+          </p>
+          <div class="code-content">
+            获取学校教务处学生用户登录验证码。
+          </div>
+          <p>
+            URI:
+          </p>
+          <div class="code-content">
+            http://cuitapi.leanapp.cn/grade/getvfcode
+          </div>
+          <p>
+            HTTP请求方式
+          </p>
+          <div class="code-content">
+            GET
+          </div>
+          <p>
+            请求参数
+          </p>
+          <div class="code-content">
+            type （默认是3。1：直接返回base64数据。2：返回code，base64，message。3：直接返回展示图片）
+          </div>
+          <p>
+            调用示例
+          </p>
+          <div class="code-content">
+            1：直接使用 &lt;img src="/grade/getvfcode?type=1" alt=""&gt; <br/>
+            2：GET http://cuitapi.leanapp.cn/grade/jwcNews?type=2 <br/>
+            3: 展示直接访问 http://cuitapi.leanapp.cn/grade/getvfcode?type=3
+          </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">type = 1</span></p>
+            <p>返回：图片data</p>
+            <p><span class="pln">type = 2</span></p>
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":200,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;图片data</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p><span class="pln">}</span></p>
+            <p><span class="pln">type = 3</span></p>
+            <p>返回：图片</p>
+          <p>
+        </section>
+
+        <!-- 获取学生成绩 -->
+        <section class="sec-content" id="getGrade">
+          <h1 class="sec-title">获取教务处学生成绩</h1>
+          <p>
+            描述:
+          </p>
+          <div class="code-content">
+            获取学校教务处学生每个学期的成绩信息。（第一次获取教务处成绩的时候需要获取一次验证码，不然无法获取成绩）
+          </div>
+          <p>
+            URI:
+          </p>
+          <div class="code-content">
+            http://cuitapi.leanapp.cn/grade/getgrade
+          </div>
+          <p>
+            HTTP请求方式
+          </p>
+          <div class="code-content">
+            GET
+          </div>
+          <p>
+            请求参数
+          </p>
+          <div class="code-content">
+            name      （学生学号）
+            passwd    （学生密码）
+            verifycode （验证码）
+          </div>
+          <p>
+            调用示例
+          </p>
+          <div class="code-content">
+            GET http://cuitapi.leanapp.cn/grade/getgrade?name=2013051147&passwd=Rdq951019&verifycode=9x49
+          </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">success:</span></p>
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":"200",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":<span class="pln">[{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"year":"2013-2014",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"team":"1",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"gpa":"79.6",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"course":<span class="pln">[{</span>"C语言程序设计I","period":"48","credit":"3","usual_grade":"92","final_exam_grade":"54","grade":"73"},{...<span class="pln">}]</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">},</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">...</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">]</span></p>
+            <p><span class="pln">}</span></p>
+            <p><span class="pln">error:</span></p>
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":"400",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"没有先获取验证码",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":"[]"</p>
+            <p><span class="pln">}</span></p>
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":"601",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":error message,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":"[]"</p>
+            <p><span class="pln">}</span></p>
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":"600",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":error message,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data":"[]"</p>
+            <p><span class="pln">}</span></p>
           <p>
         </section>
 

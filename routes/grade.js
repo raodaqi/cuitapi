@@ -177,7 +177,7 @@ router.get('/zhms', function(req, resp, next) {
 
 
 //登陆教务处
-router.get('/login', function(req, resp, next) {
+router.get('/getgrade', function(req, resp, next) {
   var login_cookie = req.session.login_cookie;
   if(!login_cookie){
     var txtId      = req.query.name,
@@ -428,9 +428,9 @@ function formatGrade(content,resp){
           grade.team = team;
           grade.gpa = gpa;
 
-          console.log(year_content);
+          // console.log(year_content);
         }else{
-          console.log("000000");
+          // console.log("000000");
           //课程名称
           // var course_name = $(this).find("a").text();
 
@@ -503,7 +503,12 @@ function formatGrade(content,resp){
         // gradeArray.push(grade);
       }
       // console.log(gradeArray);
-      resp.send(gradeArray);
+      var result = {
+        code : 200,
+        message : "success",
+        data : gradeArray
+      }
+      resp.send(result);
     }
   })
 
