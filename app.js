@@ -57,7 +57,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('api', { currentTime: new Date() });
+  res.render('newApi', { currentTime: new Date() });
 });
 
 app.get('/ocr', function(req, res) {
