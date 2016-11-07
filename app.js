@@ -13,6 +13,7 @@ var jwcnew = require('./routes/jwcnew');
 var xgnew = require('./routes/xgnew');
 var indexnew = require('./routes/indexnew');
 var jsjnew = require('./routes/jsjnew');
+var dropbox = require('./routes/dropbox');
 var cloud = require('./cloud');
 
 var app = express();
@@ -103,6 +104,7 @@ app.use('/jwcnew',jwcnew);     //获取教务处新闻
 app.use('/xgnew',xgnew);       //获取学工网新闻
 app.use('/indexnew',indexnew);  //获取官网首页新闻
 app.use('/jsjnew',jsjnew);  //获取计算机学院官网新闻
+app.use('/dropbox',dropbox);//获取网络存储
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
 app.use(function(req, res, next) {
