@@ -13,10 +13,11 @@
       display:block;
       float:left;
       margin-top:16px;
-      width: 83%;
+      width: 96%;
       text-align: right;
       font-weight:600;
       color: white;
+      position: fixed;
     }
   .icon a{
     color: white;
@@ -86,9 +87,11 @@
       margin-left: 16.666666666666664%;
     }
     .menu {
-      margin: 40px 0 40px 86px;
+      margin: 40px 0 40px 66px;
       padding: 0;
       list-style: none;
+      position: fixed;
+      overflow: hidden;
     }
     .menu-li{
       color: #808080;
@@ -296,6 +299,9 @@
           <li class="menu-li getAllPro"><a href="#getAllPro">获取所有专业</a></li>
           <li class="menu-li getClassTB"><a href="#getClassTB">获取班级课表</a></li>
           <li class="menu-li getJwcnew"><a href="#getJwcnew">获取教务处公告</a></li>
+          <li class="menu-li getIndexnew"><a href="#getIndexnew">获取学校官网首页公告</a></li>
+          <li class="menu-li getJsjnew"><a href="#getJsjnew">获取计算机学院公告</a></li>
+          <li class="menu-li getXgnew"><a href="#getXgnew">获取学工网公告</a></li>
           <!-- 获取教务处验证码 -->
           <li class="menu-li getGradeVfcode"><a href="#getGradeVfcode">获取教务处验证码</a></li>
           <li class="menu-li getGrade"><a href="#getGrade">获取学生成绩</a></li>
@@ -388,6 +394,7 @@
           <p>
         </section>
         
+        <!-- 获取教务处信息公告 -->
         <section class="sec-content" id="getJwcnew">
           <h1 class="sec-title">获取教务处公告</h1>
           <p>
@@ -435,6 +442,175 @@
           <p>
         </section>
         
+        <!-- 获取学校官网首页新闻 -->
+        <section class="sec-content" id="getIndexnew">
+          <h1 class="sec-title">获取学校官网首页公告</h1>
+          <p>
+            描述:
+          </p>
+          <div class="code-content">
+            获取获取学校官网首页中的新闻、公告。
+          </div>
+          <p>
+            URI:
+          </p>
+          <div class="code-content">
+            http://cuitapi.leanapp.cn/indexnew/indexNew
+          </div>
+          <p>
+            HTTP请求方式
+          </p>
+          <div class="code-content">
+            GET
+          </div>
+          <p>
+            调用示例
+          </p>
+          <div class="code-content">
+            GET http://cuitapi.leanapp.cn/indexnew/indexNew
+          </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":200,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data1":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data2":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data3":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data4":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <!-- <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p> -->
+           <!--  <p>&nbsp;&nbsp;&nbsp;&nbsp;"grade":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["2011级","2012级",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"class":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["01班","02班",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p><span class="pln">}</p> -->
+          <p>
+        </section>
+
+        <!-- 获取计算机学院官网信息公告 -->
+        <section class="sec-content" id="getJsjnew">
+          <h1 class="sec-title">获取计算机学院官网信息公告</h1>
+          <p>
+            描述:
+          </p>
+          <div class="code-content">
+            获取计算机学院官网信息公告
+          </div>
+          <p>
+            URI:
+          </p>
+          <div class="code-content">
+            http://cuitapi.leanapp.cn/jsjnew/jsjNew
+          </div>
+          <p>
+            HTTP请求方式
+          </p>
+          <div class="code-content">
+            GET
+          </div>
+          <p>
+            调用示例
+          </p>
+          <div class="code-content">
+            GET http://cuitapi.leanapp.cn/jsjnew/jsjNew
+          </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":200,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data1":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data2":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data3":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data4":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+           <!--  <p>&nbsp;&nbsp;&nbsp;&nbsp;"grade":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["2011级","2012级",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"class":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["01班","02班",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p><span class="pln">}</p> -->
+          <p>
+        </section>
+
+        <!-- 获取学工网信息公告 -->
+        <section class="sec-content" id="getIndexnew">
+          <h1 class="sec-title">获取学工网信息公告</h1>
+          <p>
+            描述:
+          </p>
+          <div class="code-content">
+            获取学工网信息公告
+          </div>
+          <p>
+            URI:
+          </p>
+          <div class="code-content">
+            http://cuitapi.leanapp.cn/xgnew/xgNew
+          </div>
+          <p>
+            HTTP请求方式
+          </p>
+          <div class="code-content">
+            GET
+          </div>
+          <p>
+            调用示例
+          </p>
+          <div class="code-content">
+            GET http://cuitapi.leanapp.cn/xgnew/xgNew
+          </div>
+          <p>
+            返回结果
+          </p>
+          <div class="code-content">
+            <p><span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"code":200,</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"message":"success",</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data1":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data2":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data3":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"data4":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"0"：<span class="pln">{ "title":......,text":......,"url":...... }</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"1"：<span class="pln">{ "title":......,"text":......,"url":...... }</span></p>
+           <!--  <p>&nbsp;&nbsp;&nbsp;&nbsp;"grade":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["2011级","2012级",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;"class":<span class="pln">{</span></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;["01班","02班",...]</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="pln">}</span></p>
+            <p><span class="pln">}</p> -->
+          <p>
+        </section>
+
         <!-- 获取教务处验证码 -->
         <section class="sec-content" id="getGradeVfcode">
           <h1 class="sec-title">获取教务处验证码</h1>
