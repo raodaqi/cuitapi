@@ -77,13 +77,15 @@
   <a href="./" class="icon"> 乐映
   </a>
   <div class="hide"></div>
-  <form action="./signup" method="post" class="form">
+  <form action="/views/signup" method="post" class="form">
     <input placeholder="邮箱" class="form-control form-container" name="email">
     <input type="password" placeholder="密码" class="form-control form-container" name="password"></form>
     <button class="form-container btn btn-block btn-content" id="signup">注册</button>
   <a href="/signin">
     <button class="form-container btn btn-block btn-content">用户登陆</button>
   </a>
+  </form>
+  </body>
 <% include footer.ejs %>
 <script type="text/javascript">
    $("#signup").on("click",function(){
@@ -101,9 +103,9 @@
 
       // var data = $("input").serialize();
       var data ={
-        'email':$("input[name='email']").val(),
-        'password':$("input[name='password']").val(),
-        'name':$("input[name='email']").val()
+        'email':encodeURI($("input[name='email']").val()),
+        'password':encodeURI($("input[name='password']").val()),
+        'name':encodeURI($("input[name='email']").val())
       }
         $.ajax({
           type : "POST",
