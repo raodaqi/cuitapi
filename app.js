@@ -33,8 +33,12 @@ var requireAuthentication = function(req, res, next) {
     next();
 }
 
+
 //设置跨域访问
-app.all('/grade/*', requireAuthentication);
+app.all('/classtb/*', requireAuthentication);
+app.all('/grade/getgrade', requireAuthentication);
+app.all('/grade/getvfcode?type=1', requireAuthentication);
+app.all('/grade/getvfcode?type=2', requireAuthentication);
 app.all('/anment/*', requireAuthentication);
 app.all('/btmovie/*', requireAuthentication);
 app.all('/jwcnew/*', requireAuthentication);
