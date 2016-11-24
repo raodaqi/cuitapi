@@ -24,15 +24,26 @@ app.get('/', function(req, res) {
   res.render('newApi', { currentTime: new Date() });
 });
 
-//设置跨域访问
-app.use('/*', function(req, res, next) {
+var requireAuthentication = function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
     res.header("X-Powered-By",' 3.2.1')
     res.header("Content-Type", "application/json;charset=utf-8");
     next();
-});
+}
+
+//设置跨域访问
+app.all('/grade/*', requireAuthentication);
+app.all('/anment/*', requireAuthentication);
+app.all('/btmovie/*', requireAuthentication);
+app.all('/jwcnew/*', requireAuthentication);
+app.all('/xgnew/*', requireAuthentication);
+app.all('/indexnew/*', requireAuthentication);
+app.all('/jsjnew/*', requireAuthentication);
+app.all('/dropbox/*', requireAuthentication);
+app.all('/foodnew/*', requireAuthentication);
+app.all('/jxpt/*', requireAuthentication);
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
