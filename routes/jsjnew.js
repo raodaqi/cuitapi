@@ -55,6 +55,10 @@ function jsjNew(resp) {
           var data2 = {};
           var data3 = {};
           var data4 = {};
+          var datas1 = {};
+          var datas2 = {};
+          var datas3 = {};
+          var datas4 = {};
           $(".container-rectangle-long a").each(function(i,ele){
             var text  = $(this).attr("title");
             var url  = "http://jsjxy.cuit.edu.cn/" + $(this).attr("href");
@@ -67,6 +71,8 @@ function jsjNew(resp) {
               j++;
             }
           })
+          var length = j;
+          data1 = {data1,length};
           j = 0;
           $(".container-rectangle a").each(function(i,ele){
             var text  = $(this).attr("title");
@@ -80,6 +86,8 @@ function jsjNew(resp) {
               j++;
             }
           })
+          var length = j;
+          data2 = {data2,length};
           j = 0;
           $(".container-rectangle-note a").each(function(i,ele){
             var text  = $(this).attr("title");
@@ -91,6 +99,8 @@ function jsjNew(resp) {
             }
             j++;
           })
+          var length = j;
+          data3 = {data3,length};
           // $("#hlFocus").each(function(i,ele){
           // var text  = $(this).text();
           // var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
@@ -101,7 +111,7 @@ function jsjNew(resp) {
           // }
           // i++;
           // })
-          var datas = {code,message,data1,data2,data3,data4};
+          var datas = {code,message,data1,data2,data3};
           console.log(datas);
         resp.send(datas);
     })

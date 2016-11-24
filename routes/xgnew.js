@@ -55,6 +55,7 @@ function xgNew(resp) {
           var data2 = {};
           var data3 = {};
           var data4 = {};
+          var length;
           $("#XGYW a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
@@ -65,6 +66,8 @@ function xgNew(resp) {
           }
           i++;
           })
+          length = j;
+          data1 = {data1,length};
           $("#YXDT a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
@@ -75,6 +78,8 @@ function xgNew(resp) {
           }
           i++;
           })
+          length = j;
+          data2 = {data2,length};
           $("#QCBY a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
@@ -85,6 +90,8 @@ function xgNew(resp) {
           }
           i++;
           })
+          length = j;
+          data3 = {data3,length};
           $("#ZTHD a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
@@ -95,6 +102,8 @@ function xgNew(resp) {
           }
           i++;
           })
+          length = j;
+          data4 = {data4,length};
           var datas = {code,message,data1,data2,data3,data4};
           console.log(datas);
         resp.send(datas);

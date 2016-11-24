@@ -159,6 +159,11 @@ router.get('/jxpt', function(req, resp, next) {
                           }
                 // console.log(res.text);
                 // jxpt_cookie = res.headers['cookie'];
+                          var j = 0;
+                          var data1 = {};
+                          var data2 = {};
+                          var data3 = {};
+                          var data4 = {};
                         var $ = cheerio.load(res.text);
                         var url = "http://jxpt.cuit.edu.cn/eol/main.jsp";
                         superagent.get(url)
@@ -175,11 +180,6 @@ router.get('/jxpt', function(req, resp, next) {
                             var title = $(this).value();
                             console.log(title);
                           })
-                          var j = 0;
-                          var data1 = {};
-                          var data2 = {};
-                          var data3 = {};
-                          var data4 = {};
                           var datas = {code,message,data1,data2,data3,data4};
                           console.log(datas);
                           resp.send(datas);

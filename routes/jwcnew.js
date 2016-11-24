@@ -51,6 +51,7 @@ function jwcNews(resp) {
         var $ = cheerio.load(res.text);
           var i = 0;
           var data = {};
+          var length;
           $(".col_5 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://jwc.cuit.edu.cn" + $(this).attr("href");
@@ -60,7 +61,8 @@ function jwcNews(resp) {
           }
           i++;
           })
-          var datas = {code,message,data};
+          length = i;
+          var datas = {code,message,data,length};
           console.log(datas);
         resp.send(datas);
     })

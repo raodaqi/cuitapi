@@ -55,6 +55,7 @@ function indexNew(resp) {
           var data2 = {};
           var data3 = {};
           var data4 = {};
+          var length;
           $("#New1 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
@@ -65,6 +66,8 @@ function indexNew(resp) {
           }
           i++;
           })
+          length = i;
+          data1 = {data1,length};
           $("#New2 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
@@ -75,6 +78,8 @@ function indexNew(resp) {
           }
           i++;
           })
+          length = i;
+          data2 = {data2,length};
           $("#New4 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
@@ -85,6 +90,8 @@ function indexNew(resp) {
           }
           i++;
           })
+          length = i;
+          data3 = {data3,length};
           $("#hlFocus").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
@@ -95,6 +102,8 @@ function indexNew(resp) {
           }
           i++;
           })
+          length = i;
+          data4 = {data4,length};
           var datas = {code,message,data1,data2,data3,data4};
           console.log(datas);
         resp.send(datas);
