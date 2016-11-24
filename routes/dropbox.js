@@ -34,10 +34,6 @@ function sendErrorMessage(res,message){
   res.send(result);
 }
 router.get('/dropBox', function(req, resp, next) {
-  dropBox(req,resp,next);
-});
-
-function dropBox(req,resp,next) {
   var wlcc_cookie;
   var url = "http://pan.cuit.edu.cn";
   var tourl;
@@ -127,8 +123,7 @@ function dropBox(req,resp,next) {
       })
       
     })
-  }
-
+});
 router.get('/getItKey', function(req, res, next) {
   getItKey('',{
     success:function(ltKey){

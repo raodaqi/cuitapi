@@ -169,8 +169,12 @@ router.get('/jxpt', function(req, resp, next) {
                             sendErrorMessage(resp);
                             return ;
                             }
-                          console.log(res.text);
+                          // console.log(res.text);
                           var $ = cheerio.load(res.text);
+                          $("#reminder a").each(function(i,ele){
+                            var title = $(this).value();
+                            console.log(title);
+                          })
                           var j = 0;
                           var data1 = {};
                           var data2 = {};
