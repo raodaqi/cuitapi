@@ -20,6 +20,20 @@ var cloud = require('./cloud');
 
 var app = express();
 
+app.get('/', function(req, res) {
+  res.render('newApi', { currentTime: new Date() });
+});
+
+//设置跨域访问
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By",' 3.2.1')
+    res.header("Content-Type", "application/json;charset=utf-8");
+    next();
+});
+
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -57,10 +71,6 @@ app.use(function(req, res, next) {
     }
   });
   d.run(next);
-});
-
-app.get('/', function(req, res) {
-  res.render('newApi', { currentTime: new Date() });
 });
 
 app.get('/ocr', function(req, res) {
