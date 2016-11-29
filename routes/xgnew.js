@@ -48,7 +48,6 @@ function xgNew(resp) {
         sendErrorMessage(resp);
         return ;
       }
-        // console.log(res.text);
         var $ = cheerio.load(res.text);
           var i = 0;
           var data1 = {};
@@ -66,7 +65,7 @@ function xgNew(resp) {
           }
           i++;
           })
-          length = j;
+          length = i;
           data1 = {data1,length};
           $("#YXDT a").each(function(i,ele){
           var text  = $(this).text();
@@ -78,7 +77,7 @@ function xgNew(resp) {
           }
           i++;
           })
-          length = j;
+          length = i;
           data2 = {data2,length};
           $("#QCBY a").each(function(i,ele){
           var text  = $(this).text();
@@ -90,7 +89,7 @@ function xgNew(resp) {
           }
           i++;
           })
-          length = j;
+          length = i;
           data3 = {data3,length};
           $("#ZTHD a").each(function(i,ele){
           var text  = $(this).text();
@@ -102,7 +101,7 @@ function xgNew(resp) {
           }
           i++;
           })
-          length = j;
+          length = i;
           data4 = {data4,length};
           var datas = {code,message,data1,data2,data3,data4};
           console.log(datas);
