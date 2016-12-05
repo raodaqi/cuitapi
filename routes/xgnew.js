@@ -55,53 +55,57 @@ function xgNew(resp) {
           var data3 = {};
           var data4 = {};
           var length;
+          var j = 0;
           $("#XGYW a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          data1[i] ={
+          data1[j] ={
             title : "学工要闻",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data1 = {data1,length};
+          var j = 0;
           $("#YXDT a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          data2[i] ={
+          data2[j] ={
             title : "学院动态",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data2 = {data2,length};
+          var j = 0;
           $("#QCBY a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          data3[i] ={
+          data3[j] ={
             title : "青春榜样",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data3 = {data3,length};
+          var j = 0;
           $("#ZTHD a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://xsc.cuit.edu.cn/WebSite/web/" + $(this).attr("href");
-          data4[i] ={
+          data4[j] ={
             title : "专题活动",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data4 = {data4,length};
           var datas = {code,message,data1,data2,data3,data4};
           console.log(datas);

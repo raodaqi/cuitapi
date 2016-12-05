@@ -56,53 +56,57 @@ function indexNew(resp) {
           var data3 = {};
           var data4 = {};
           var length;
+          var j = 0;
           $("#New1 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
-          data1[i] ={
+          data1[j] ={
             title : "综合新闻",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data1 = {data1,length};
+          var j = 0;
           $("#New2 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
-          data2[i] ={
+          data2[j] ={
             title : "信息公告",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data2 = {data2,length};
+          var j = 0;
           $("#New4 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
-          data3[i] ={
+          data3[j] ={
             title : "学术动态",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data3 = {data3,length};
+          var j = 0;
           $("#hlFocus").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://www.cuit.edu.cn/" + $(this).attr("href");
-          data4[i] ={
+          data4[j] ={
             title : "焦点新闻",
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           data4 = {data4,length};
           var datas = {code,message,data1,data2,data3,data4};
           console.log(datas);

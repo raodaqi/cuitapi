@@ -52,16 +52,17 @@ function jwcNews(resp) {
           var i = 0;
           var data = {};
           var length;
+          var j = 0;
           $(".col_5 a").each(function(i,ele){
           var text  = $(this).text();
           var url  = "http://jwc.cuit.edu.cn" + $(this).attr("href");
-          data[i] ={
+          data[j] ={
             text : text,
             url : url
           }
-          i++;
+          j++;
           })
-          length = i;
+          length = j;
           var datas = {code,message,data,length};
           console.log(datas);
         resp.send(datas);
