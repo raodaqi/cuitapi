@@ -48,7 +48,6 @@ function indexNew(resp) {
         sendErrorMessage(resp);
         return ;
       }
-        // console.log(res.text);
         var $ = cheerio.load(res.text);
           var i = 0;
           var data1 = {};
