@@ -219,6 +219,8 @@ router.get('/getgrade', function(req, resp, next) {
             resp.send(result);
             return;
           }
+
+          console.log(res.text)
           
           var data = res.text;
           var url = "http://jxgl.cuit.edu.cn/Jxgl/Xs/MainMenu.asp";
@@ -329,6 +331,7 @@ router.get('/getgrade', function(req, resp, next) {
                             }
                             // console.log(result);
                             // return;
+
                             req.session.login_cookie = jwc_cookie;
                             superagent
                             .get("http://jxgl.cuit.edu.cn/Jxgl/UserPub/GetCjByXh.asp?UTp=Xs")
@@ -345,7 +348,7 @@ router.get('/getgrade', function(req, resp, next) {
                                 res.send(err);
                                 return;
                               }
-                              // console.log(result.text);
+                              console.log(result.text);
                               // resp.send(result.text);
                               formatGrade(result.text,resp)
                             })
@@ -390,7 +393,7 @@ function formatGrade(content,resp){
   }
 
   $(".tabThinM").each(function(i,ele){
-    if(i == 6){
+    if(i == 5){
       // console.log($(this).find("tr"));
       //定义一个json数组保存成绩信息
       //编辑所有的tr
